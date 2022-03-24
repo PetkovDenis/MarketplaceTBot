@@ -66,6 +66,10 @@ public class MainMenuService {
         buttonListResources.setText("Список ресурсов");
         buttonListResources.setCallbackData("buttonListResources");
 
+        InlineKeyboardButton buttonAddResources = new InlineKeyboardButton();
+        buttonAddResources.setText("Добавить канал в список платных ресурсов");
+        buttonAddResources.setCallbackData("buttonAddResources");
+
         InlineKeyboardButton buttonSubscribe = new InlineKeyboardButton();
         buttonSubscribe.setText("Оформить подписку на ресурс");
         buttonSubscribe.setCallbackData("buttonSubscribe");
@@ -80,6 +84,7 @@ public class MainMenuService {
 
         List<InlineKeyboardButton> keyboardButtons2 = new ArrayList<>();
         keyboardButtons2.add(buttonHelp);
+        keyboardButtons2.add(buttonAddResources);
 
         List<List<InlineKeyboardButton>> listsKeyboards = new ArrayList<>();
         listsKeyboards.add(keyboardButtons1);
