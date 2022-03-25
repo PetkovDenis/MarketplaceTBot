@@ -1,7 +1,9 @@
-package ru.ws.marketplace.service.channel;
+package ru.ws.marketplace.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TChannel;
+import ru.ws.marketplace.repository.CRUDChannelService;
+import ru.ws.marketplace.repository.ChannelRepository;
 
 import java.sql.SQLException;
 

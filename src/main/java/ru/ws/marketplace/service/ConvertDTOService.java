@@ -1,10 +1,9 @@
 package ru.ws.marketplace.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.dto.DTOTChannel;
 import ru.ws.marketplace.model.TChannel;
-import ru.ws.marketplace.service.channel.ChannelRepository;
+import ru.ws.marketplace.repository.ChannelRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

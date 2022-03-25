@@ -1,6 +1,10 @@
-package ru.ws.marketplace.status;
+package ru.ws.marketplace.state;
+
+import ru.ws.marketplace.enumstate.DialogueStateEnum;
+import ru.ws.marketplace.interfacestate.DialogueState;
 
 public class Link implements DialogueState {
+
     @Override
     public void previousState(DialogueContext context) {
         context.setState(new Description());
@@ -8,7 +12,7 @@ public class Link implements DialogueState {
 
     @Override
     public void nextState(DialogueContext context) {
-        System.out.println("Next state not found");
+        context.setState(new End());
     }
 
     @Override

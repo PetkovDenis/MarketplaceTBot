@@ -1,23 +1,24 @@
 package ru.ws.marketplace.model;
 
-import lombok.Data;
-import org.hibernate.annotations.ValueGenerationType;
+import lombok.*;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
-import javax.sound.midi.Sequence;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 public class TChannel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name="nameChannel")
+    @Column(name = "nameChannel")
     private String name;
-    @Column(name="descriptionChannel")
+    @Column(name = "descriptionChannel")
     private String description;
-    @Column(name="linkChannel")
+    @Column(name = "linkChannel")
     private String link;
+
 }

@@ -1,4 +1,7 @@
-package ru.ws.marketplace.status;
+package ru.ws.marketplace.state;
+
+import ru.ws.marketplace.enumstate.DialogueStateEnum;
+import ru.ws.marketplace.interfacestate.DialogueState;
 
 public class Name implements DialogueState {
     @Override

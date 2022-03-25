@@ -1,9 +1,10 @@
-package ru.ws.marketplace.status;
+package ru.ws.marketplace.enumstate;
 
 public enum DialogueStateEnum {
     NAME("NAME"),
     DESCRIPTION("DESCRIPTION"),
-    LINK("LINK");
+    LINK("LINK"),
+    END("END");
 
     String status;
 

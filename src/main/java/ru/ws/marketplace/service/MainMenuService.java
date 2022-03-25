@@ -1,5 +1,6 @@
 package ru.ws.marketplace.service;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
@@ -58,6 +59,7 @@ public class MainMenuService {
         return keyboardMarkup;
     }
 
+    @Bean
     public InlineKeyboardMarkup getKeyboard() {
 
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
