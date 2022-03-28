@@ -1,7 +1,6 @@
 package ru.ws.marketplace.state;
 
 import org.springframework.stereotype.Component;
-import ru.ws.marketplace.interfacestate.DialogueState;
 
 @Component
 public class DialogueContext {

@@ -1,13 +1,10 @@
 package ru.ws.marketplace.state;
 
-import ru.ws.marketplace.enumstate.DialogueStateEnum;
-import ru.ws.marketplace.interfacestate.DialogueState;
-
 public class End implements DialogueState {
 
     @Override
     public void previousState(DialogueContext context) {
-        context.setState(new Link());
+        context.setState(new Price());
     }
 
     @Override

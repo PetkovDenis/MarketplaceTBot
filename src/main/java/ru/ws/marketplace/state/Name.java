@@ -1,8 +1,5 @@
 package ru.ws.marketplace.state;
 
-import ru.ws.marketplace.enumstate.DialogueStateEnum;
-import ru.ws.marketplace.interfacestate.DialogueState;
-
 public class Name implements DialogueState {
     @Override
     public void previousState(DialogueContext context) {

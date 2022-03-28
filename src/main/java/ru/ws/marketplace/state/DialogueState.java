@@ -1,6 +1,4 @@
-package ru.ws.marketplace.interfacestate;
-
-import ru.ws.marketplace.state.DialogueContext;
+package ru.ws.marketplace.state;
 
 public interface DialogueState {
 

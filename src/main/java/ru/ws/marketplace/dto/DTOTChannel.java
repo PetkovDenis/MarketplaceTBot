@@ -10,4 +10,12 @@ public class DTOTChannel {
     private String name;
     private String description;
     private String link;
+    private Integer price;
+
+    @Override
+    public String toString()
+    {
+        return name + "\n";
+    }
+
 }

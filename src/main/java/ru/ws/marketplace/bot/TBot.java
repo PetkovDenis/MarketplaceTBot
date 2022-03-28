@@ -1,6 +1,7 @@
 package ru.ws.marketplace.bot;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,7 +14,12 @@ import ru.ws.marketplace.service.MainMenuService;
 public class TBot extends TelegramLongPollingBot {
 
     private final MainMenuService mainMenuService = new MainMenuService();
-    private final HandleIncomingMessageService handleIncomingMessageService = new HandleIncomingMessageService();
+
+    private final HandleIncomingMessageService handleIncomingMessageService;
+
+    public TBot(HandleIncomingMessageService handleIncomingMessageService) {
+        this.handleIncomingMessageService = handleIncomingMessageService;
+    }
 
     @Override
     public String getBotUsername() {

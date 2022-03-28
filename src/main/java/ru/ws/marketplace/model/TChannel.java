@@ -9,16 +9,20 @@ import javax.persistence.*;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Table(name = "channels")
 public class TChannel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "nameChannel")
+    @Column(name = "name")
     private String name;
-    @Column(name = "descriptionChannel")
+    @Column(name = "description")
     private String description;
-    @Column(name = "linkChannel")
+    @Column(name = "link")
     private String link;
+    @Column(name = "price")
+    private Integer price;
 
 }

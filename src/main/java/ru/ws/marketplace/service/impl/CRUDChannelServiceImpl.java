@@ -1,8 +1,10 @@
 package ru.ws.marketplace.service.impl;
 
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TChannel;
-import ru.ws.marketplace.repository.CRUDChannelService;
+import ru.ws.marketplace.service.CRUDChannelService;
 import ru.ws.marketplace.repository.ChannelRepository;
 
 import java.sql.SQLException;
@@ -12,12 +14,14 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
     final ChannelRepository channelRepository;
 
+    @Autowired
     public CRUDChannelServiceImpl(ChannelRepository channelService) {
         this.channelRepository = channelService;
     }
 
     @Override
-    public void delete(Long id) throws SQLException {
+    @SneakyThrows
+    public void delete(Long id)  {
         if (channelRepository.existsById(id)) {
             channelRepository.deleteById(id);
         } else {

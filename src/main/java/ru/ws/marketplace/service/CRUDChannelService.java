@@ -1,4 +1,4 @@
-package ru.ws.marketplace.repository;
+package ru.ws.marketplace.service;
 
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TChannel;
