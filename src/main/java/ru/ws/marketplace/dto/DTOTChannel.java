@@ -13,9 +13,7 @@ public class DTOTChannel {
     private Integer price;
 
     @Override
-    public String toString()
-    {
-        return name + "\n";
+    public String toString() {
+        return  "/"+name +"\n";
     }
-
 }

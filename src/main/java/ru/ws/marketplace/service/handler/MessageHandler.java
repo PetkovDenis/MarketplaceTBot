@@ -1,5 +1,6 @@
 package ru.ws.marketplace.service.handler;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,18 +13,28 @@ import ru.ws.marketplace.state.End;
 @Service
 public class MessageHandler {
 
-    TChannel channel = new TChannel();
-
-
-    final CRUDChannelServiceImpl crudChannelService;
+   private final TChannel channel = new TChannel();
+   private final CRUDChannelServiceImpl crudChannelService;
+   private final SendMessage sendMessage = new SendMessage();
 
     @Autowired
     public MessageHandler(CRUDChannelServiceImpl crudChannelService) {
         this.crudChannelService = crudChannelService;
     }
 
+    @SneakyThrows
+    public SendMessage sortedMessage(Message message,DialogueContext context){
+
+        if(!context.getStatusName().equals("END")){
+        handleInputMessage(message,context);
+        }
+
+    return sendMessage;
+    }
+
+
     public SendMessage handleInputMessage(Message message, DialogueContext context) {
-        SendMessage sendMessage = new SendMessage();
+
         sendMessage.setChatId(message.getChatId().toString());
 
         String text = message.getText();
@@ -56,4 +67,6 @@ public class MessageHandler {
         }
         return sendMessage;
     }
+
+
 }

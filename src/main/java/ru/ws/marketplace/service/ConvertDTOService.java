@@ -18,11 +18,11 @@ public class ConvertDTOService {
         this.channelRepository = channelRepository;
     }
 
-    public List<DTOTChannel> getAllNameDTO() {
+    public List<DTOTChannel> getAllDTO() {
+
 
         return channelRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(TChannel::getName))
                 .map(this::convertDTO)
                 .collect(Collectors.toList());
     }
@@ -30,7 +30,7 @@ public class ConvertDTOService {
     private DTOTChannel convertDTO(TChannel channel) {
         DTOTChannel dtoChannel = new DTOTChannel();
         dtoChannel.setId(channel.getId());
-        dtoChannel.setName("/"+channel.getName());
+        dtoChannel.setName(channel.getName());
         dtoChannel.setDescription(channel.getDescription());
         dtoChannel.setLink(channel.getLink());
         dtoChannel.setPrice(channel.getPrice());

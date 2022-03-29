@@ -1,13 +1,12 @@
 package ru.ws.marketplace.bot;
 
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.ws.marketplace.service.HandleIncomingMessageService;
+import ru.ws.marketplace.service.handler.HandleIncomingMessageService;
 import ru.ws.marketplace.service.MainMenuService;
 
 @Component

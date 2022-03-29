@@ -35,7 +35,6 @@ public class MainMenuService {
         return sendMessage;
     }
 
-
     public ReplyKeyboardMarkup getMainMenuKeyboard() {
 
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
@@ -55,6 +54,7 @@ public class MainMenuService {
         keyboardMarkups.add(row2);
 
         keyboardMarkup.setKeyboard(keyboardMarkups);
+
 
         return keyboardMarkup;
     }

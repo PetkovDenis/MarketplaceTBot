@@ -1,4 +1,4 @@
-package ru.ws.marketplace.service;
+package ru.ws.marketplace.service.handler;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -14,9 +14,10 @@ import ru.ws.marketplace.state.*;
 public class HandleIncomingMessageService {
 
     private final DialogueContext context = new DialogueContext();
-
     private final MessageHandler messageHandler;
     private final CallbackHandler callbackHandler;
+
+    private SendMessage replyMessage;
 
     public HandleIncomingMessageService(MessageHandler messageHandler, CallbackHandler callbackHandler) {
         this.messageHandler = messageHandler;
@@ -24,14 +25,15 @@ public class HandleIncomingMessageService {
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
-        SendMessage replyMessage;
+
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             return callbackHandler.handleCallback(callbackQuery, context);
         }
+
         Message message = update.getMessage();
-        if (message != null && message.hasText() && !context.getStatusName().equals("END")) {
-            replyMessage = messageHandler.handleInputMessage(message, context);
+        if (message != null && message.hasText()) {
+            replyMessage = messageHandler.sortedMessage(message, context);
         } else {
             replyMessage = new SendMessage(update.getMessage().getChatId().toString(), " Сообщения принято на обработку");
         }

@@ -8,6 +8,7 @@ import ru.ws.marketplace.service.CRUDChannelService;
 import ru.ws.marketplace.repository.ChannelRepository;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class CRUDChannelServiceImpl implements CRUDChannelService {
@@ -35,7 +36,8 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     }
 
     @Override
-    public TChannel get(Long id) throws SQLException {
+    @SneakyThrows
+    public TChannel get(Long id)  {
         TChannel receivedChannel;
         if (channelRepository.existsById(id)) {
             receivedChannel = channelRepository.getById(id);
@@ -46,7 +48,8 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     }
 
     @Override
-    public void update(TChannel channel, Long id) throws SQLException {
+    @SneakyThrows
+    public void update(TChannel channel, Long id){
         if (channelRepository.existsById(id)) {
             channelRepository.deleteById(id);
             channel.setId(id);
