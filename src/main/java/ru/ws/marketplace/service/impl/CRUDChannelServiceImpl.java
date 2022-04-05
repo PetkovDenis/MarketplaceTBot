@@ -4,11 +4,10 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TChannel;
-import ru.ws.marketplace.service.CRUDChannelService;
 import ru.ws.marketplace.repository.ChannelRepository;
+import ru.ws.marketplace.service.CRUDChannelService;
 
 import java.sql.SQLException;
-import java.util.List;
 
 @Service
 public class CRUDChannelServiceImpl implements CRUDChannelService {
@@ -22,7 +21,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
     @Override
     @SneakyThrows
-    public void delete(Long id)  {
+    public void delete(Long id) {
         if (channelRepository.existsById(id)) {
             channelRepository.deleteById(id);
         } else {
@@ -37,7 +36,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
     @Override
     @SneakyThrows
-    public TChannel get(Long id)  {
+    public TChannel get(Long id) {
         TChannel receivedChannel;
         if (channelRepository.existsById(id)) {
             receivedChannel = channelRepository.getById(id);
@@ -49,7 +48,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
     @Override
     @SneakyThrows
-    public void update(TChannel channel, Long id){
+    public void update(TChannel channel, Long id) {
         if (channelRepository.existsById(id)) {
             channelRepository.deleteById(id);
             channel.setId(id);
@@ -57,5 +56,10 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
         } else {
             throw new SQLException();
         }
+    }
+
+    @Override
+    public TChannel findByName(String name) {
+        return channelRepository.getTChannelByName(name);
     }
 }

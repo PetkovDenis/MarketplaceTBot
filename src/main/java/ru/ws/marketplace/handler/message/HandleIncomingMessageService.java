@@ -1,25 +1,24 @@
-package ru.ws.marketplace.service.handler;
+package ru.ws.marketplace.handler.message;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.ws.marketplace.service.handler.CallbackHandler;
-import ru.ws.marketplace.service.handler.MessageHandler;
-import ru.ws.marketplace.state.*;
+import ru.ws.marketplace.handler.button.ButtonClickHandler;
+import ru.ws.marketplace.state.dialog.DialogueContext;
 
-@Service
+@Component
 public class HandleIncomingMessageService {
 
     private final DialogueContext context = new DialogueContext();
     private final MessageHandler messageHandler;
-    private final CallbackHandler callbackHandler;
+    private final ButtonClickHandler callbackHandler;
 
-    private SendMessage replyMessage;
+    private BotApiMethod<?> replyMessage;
 
-    public HandleIncomingMessageService(MessageHandler messageHandler, CallbackHandler callbackHandler) {
+    public HandleIncomingMessageService(MessageHandler messageHandler, ButtonClickHandler callbackHandler) {
         this.messageHandler = messageHandler;
         this.callbackHandler = callbackHandler;
     }

@@ -5,7 +5,6 @@ import ru.ws.marketplace.dto.DTOTChannel;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.repository.ChannelRepository;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +18,6 @@ public class ConvertDTOService {
     }
 
     public List<DTOTChannel> getAllDTO() {
-
-
         return channelRepository.findAll()
                 .stream()
                 .map(this::convertDTO)
@@ -36,4 +33,5 @@ public class ConvertDTOService {
         dtoChannel.setPrice(channel.getPrice());
         return dtoChannel;
     }
+
 }

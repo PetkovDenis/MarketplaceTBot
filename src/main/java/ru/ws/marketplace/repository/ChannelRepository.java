@@ -6,4 +6,5 @@ import ru.ws.marketplace.model.TChannel;
 
 @Service
 public interface ChannelRepository extends JpaRepository<TChannel, Long> {
+    TChannel getTChannelByName(String name);
 }

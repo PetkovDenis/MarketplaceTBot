@@ -6,13 +6,13 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.ws.marketplace.service.handler.HandleIncomingMessageService;
-import ru.ws.marketplace.service.MainMenuService;
+import ru.ws.marketplace.handler.message.HandleIncomingMessageService;
+import ru.ws.marketplace.init.ButtonInitialization;
 
 @Component
 public class TBot extends TelegramLongPollingBot {
 
-    private final MainMenuService mainMenuService = new MainMenuService();
+    private final ButtonInitialization mainMenuService = new ButtonInitialization();
 
     private final HandleIncomingMessageService handleIncomingMessageService;
 
@@ -43,7 +43,6 @@ public class TBot extends TelegramLongPollingBot {
                             .replyMarkup(mainMenuService.getKeyboard())
                             .build());
                 } else {
-                    //TODO сделать разделения на поступающие сообщения(одни для цикла с событиями другие для чего-то иного)
                     execute(handleIncomingMessageService.handleUpdate(update));
                 }
             }

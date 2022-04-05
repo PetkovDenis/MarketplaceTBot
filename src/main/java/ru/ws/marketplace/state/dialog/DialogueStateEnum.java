@@ -1,4 +1,4 @@
-package ru.ws.marketplace.state;
+package ru.ws.marketplace.state.dialog;
 
 public enum DialogueStateEnum {
     NAME("NAME"),
