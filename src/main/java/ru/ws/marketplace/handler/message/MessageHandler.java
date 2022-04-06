@@ -34,11 +34,11 @@ public class MessageHandler {
     public BotApiMethod<?> sortedMessage(Message message, DialogueContext context) {
 
         TChannel byName = crudChannelService.findByName(message.getText());
-        BotApiMethod<?> sendMessage = dialogWithClient(message, context);
+        // BotApiMethod<?> sendMessage = dialogWithClient(message, context);
 
-        //BotApiMethod<?> tChannel = createMessage.getTChannel(message.getChatId(), byName);
+        BotApiMethod<?> tChannel = createMessage.getTChannel(message.getChatId(), byName);
 
-        return sendMessage;
+        return tChannel;
     }
 
     public SendMessage dialogWithClient(Message message, DialogueContext context) {
