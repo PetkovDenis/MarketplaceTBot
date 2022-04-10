@@ -4,8 +4,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import ru.ws.marketplace.init.ButtonInitialization;
-import ru.ws.marketplace.init.MapCommandButton;
+import ru.ws.marketplace.init.button.ButtonInitialization;
 import ru.ws.marketplace.service.ConvertDTOService;
 import ru.ws.marketplace.state.dialog.DialogueContext;
 import ru.ws.marketplace.state.dialog.Name;
@@ -15,13 +14,10 @@ public class ButtonClickHandler {
 
     private final ButtonInitialization buttonInitialization;
     private final ConvertDTOService convertDTOService;
-    private final MapCommandButton buttonState;
 
-
-    public ButtonClickHandler(ButtonInitialization mainMenuService, ConvertDTOService convertDTOService, MapCommandButton buttonState) {
+    public ButtonClickHandler(ButtonInitialization mainMenuService, ConvertDTOService convertDTOService) {
         this.buttonInitialization = mainMenuService;
         this.convertDTOService = convertDTOService;
-        this.buttonState = buttonState;
     }
 
     public BotApiMethod<?> handleCallback(CallbackQuery buttonQuery, DialogueContext context) {

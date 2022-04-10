@@ -2,7 +2,6 @@ package ru.ws.marketplace.state.dialog;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class DialogueContext {
 
@@ -12,9 +11,7 @@ public class DialogueContext {
         this.state = state;
     }
 
-    public DialogueState getState() {
-        return state;
-    }
+    public DialogueState getState() {return state;}
 
     public void nextState() {
         state.nextState(this);
@@ -23,5 +20,4 @@ public class DialogueContext {
     public String getStatusName() {
         return state.getStatus();
     }
-
 }

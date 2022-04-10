@@ -1,4 +1,4 @@
-package ru.ws.marketplace.init;
+package ru.ws.marketplace.init.button;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

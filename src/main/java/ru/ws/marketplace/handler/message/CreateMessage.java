@@ -16,7 +16,7 @@ public class CreateMessage {
     }
 
 
-    public BotApiMethod<?> getTChannel(Long chatId, TChannel byName) {
+    public BotApiMethod<?> getPayment(Long chatId, TChannel byName) {
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId.toString());

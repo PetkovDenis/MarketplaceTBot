@@ -1,4 +1,4 @@
-package ru.ws.marketplace.init;
+package ru.ws.marketplace.init.command;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

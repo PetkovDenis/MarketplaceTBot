@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.ws.marketplace.init.MapCommandState;
+import ru.ws.marketplace.init.command.MapCommandState;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 import ru.ws.marketplace.state.dialog.DialogueContext;
@@ -32,14 +32,35 @@ public class MessageHandler {
 
     @SneakyThrows
     public BotApiMethod<?> sortedMessage(Message message, DialogueContext context) {
-
-        TChannel byName = crudChannelService.findByName(message.getText());
-        // BotApiMethod<?> sendMessage = dialogWithClient(message, context);
-
-        BotApiMethod<?> tChannel = createMessage.getTChannel(message.getChatId(), byName);
-
-        return tChannel;
+        BotApiMethod<?> result;
+        try {
+            if (context.getStatusName() != null && !context.getStatusName().equals("END")) {
+                result = dialogWithClient(message, context);
+            } else {
+                result = getTChannel(message, context);
+            }
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
+            result = getTChannel(message, context);
+        }
+        return result;
     }
+
+
+    private BotApiMethod<?> getTChannel(Message message, DialogueContext context) {
+
+        BotApiMethod<?> result;
+
+        try {
+            TChannel byName = crudChannelService.findByName(message.getText());
+            result = createMessage.getPayment(message.getChatId(), byName);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            result = new SendMessage(message.getChatId().toString(), "Неизвестная команда - " + message.getText());
+        }
+        return result;
+    }
+
 
     public SendMessage dialogWithClient(Message message, DialogueContext context) {
         Map<String, DialogueState> commandMap = commandState.getCommandMap();

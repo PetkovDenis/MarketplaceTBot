@@ -5,7 +5,6 @@ import org.telegram.telegrambots.meta.api.methods.AnswerPreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
@@ -31,13 +30,13 @@ public class HandleIncomingMessageService {
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
- //       Message message1 = update.getMessage();
-   //     Long chatId = message1.getChatId();
 
         Message message = update.getMessage();
+
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             return callbackHandler.handleCallback(callbackQuery, context);
+
         } else if (update.hasPreCheckoutQuery()) {
             PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
             boolean result = preCheckoutPayment.resultPreCheckout();
@@ -45,7 +44,6 @@ public class HandleIncomingMessageService {
         }
 
         if (!update.hasMessage()) {
-            ChatMemberUpdated chatMember = update.getChatMember();
             return replyMessage;
         }
 
@@ -55,7 +53,7 @@ public class HandleIncomingMessageService {
             replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! Информация о плетеже" + invoicePayload);
         }
 
-        if (message != null && message.hasText()) {
+        if (message.hasText()) {
             replyMessage = messageHandler.sortedMessage(message, context);
         } else {
             replyMessage = new SendMessage(update.getMessage().getChatId().toString(), " Сообщения принято на обработку");

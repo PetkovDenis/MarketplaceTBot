@@ -33,5 +33,4 @@ public class ConvertDTOService {
         dtoChannel.setPrice(channel.getPrice());
         return dtoChannel;
     }
-
 }
