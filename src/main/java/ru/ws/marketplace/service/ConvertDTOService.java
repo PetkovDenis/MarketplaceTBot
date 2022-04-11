@@ -28,6 +28,7 @@ public class ConvertDTOService {
         DTOTChannel dtoChannel = new DTOTChannel();
         dtoChannel.setId(channel.getId());
         dtoChannel.setName(channel.getName());
+        dtoChannel.setCategory(channel.getCategory());
         dtoChannel.setDescription(channel.getDescription());
         dtoChannel.setLink(channel.getLink());
         dtoChannel.setPrice(channel.getPrice());

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class DTOTChannel {
     private Long id;
+    private String category;
     private String name;
     private String description;
     private String link;
     private Integer price;
-
 }

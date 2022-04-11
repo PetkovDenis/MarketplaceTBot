@@ -6,7 +6,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.ws.marketplace.handler.message.HandleIncomingMessageService;
+import ru.ws.marketplace.handler.update.UpdateHandler;
 import ru.ws.marketplace.init.button.ButtonInitialization;
 
 @Component
@@ -14,10 +14,10 @@ public class TBot extends TelegramLongPollingBot {
 
     private final ButtonInitialization mainMenuService = new ButtonInitialization();
 
-    private final HandleIncomingMessageService handleIncomingMessageService;
+    private final UpdateHandler handleUpdate;
 
-    public TBot(HandleIncomingMessageService handleIncomingMessageService) {
-        this.handleIncomingMessageService = handleIncomingMessageService;
+    public TBot(UpdateHandler handleIncomingMessageService) {
+        this.handleUpdate = handleIncomingMessageService;
     }
 
     @Override
@@ -43,11 +43,11 @@ public class TBot extends TelegramLongPollingBot {
                             .replyMarkup(mainMenuService.getKeyboard())
                             .build());
                 } else {
-                    execute(handleIncomingMessageService.handleUpdate(update));
+                    execute(handleUpdate.handleUpdate(update));
                 }
             }
         } else {
-            execute(handleIncomingMessageService.handleUpdate(update));
+            execute(handleUpdate.handleUpdate(update));
         }
     }
 }

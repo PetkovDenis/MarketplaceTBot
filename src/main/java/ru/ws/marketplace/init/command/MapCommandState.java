@@ -15,6 +15,7 @@ public class MapCommandState {
 
     {
         commandMap.put("NAME", new Name());
+        commandMap.put("CATEGORY",new Category());
         commandMap.put("DESCRIPTION", new Description());
         commandMap.put("LINK", new Link());
         commandMap.put("PRICE", new Price());

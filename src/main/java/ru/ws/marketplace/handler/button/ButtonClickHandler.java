@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.ws.marketplace.init.button.ButtonInitialization;
 import ru.ws.marketplace.service.ConvertDTOService;
+import ru.ws.marketplace.state.dialog.Category;
 import ru.ws.marketplace.state.dialog.DialogueContext;
 import ru.ws.marketplace.state.dialog.Name;
 
@@ -29,9 +30,11 @@ public class ButtonClickHandler {
                 callBackAnswer = buttonInitialization.convertDTOInButton(chatId, convertDTOService.getAllDTO());
                 break;
             case "buttonAddResources":
-                callBackAnswer = new SendMessage(chatId.toString(), "Для добавления канала необходимо заполнить анкету \uD83D\uDCCB \n\n" +
-                        "Введите название канала");
-                context.setState(new Name());
+                SendMessage message = new SendMessage(chatId.toString(), "Для добавления канала необходимо заполнить анкету \uD83D\uDCCB \n\n" +
+                        "Выберите категорию канала");
+                message.setReplyMarkup(buttonInitialization.getAllCategories());
+                callBackAnswer = message;
+                context.setState(new Category());
                 break;
         }
         return callBackAnswer;

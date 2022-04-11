@@ -37,17 +37,17 @@ public class MessageHandler {
             if (context.getStatusName() != null && !context.getStatusName().equals("END")) {
                 result = dialogWithClient(message, context);
             } else {
-                result = getTChannel(message, context);
+                result = getTChannel(message);
             }
         } catch (NullPointerException exception) {
             exception.printStackTrace();
-            result = getTChannel(message, context);
+            result = getTChannel(message);
         }
         return result;
     }
 
 
-    private BotApiMethod<?> getTChannel(Message message, DialogueContext context) {
+    private BotApiMethod<?> getTChannel(Message message) {
 
         BotApiMethod<?> result;
 

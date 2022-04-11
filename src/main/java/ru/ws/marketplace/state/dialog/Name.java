@@ -20,7 +20,7 @@ public class Name implements DialogueState {
     @Override
     public SendMessage execute(TChannel channel, SendMessage message) {
         channel.setName(message.getText());
-        message.setText("Введите описание канала(цель канала, для кого предназначена информация публикуемая в канале и т.д");
+        message.setText("Введите описание канала(цель канала, для кого предназначена информация публикуемая в канале и т.");
         return message;
     }
 }

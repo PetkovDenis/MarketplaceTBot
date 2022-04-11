@@ -19,6 +19,8 @@ public class TChannel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(name = "category")
+    private String category;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -27,5 +29,4 @@ public class TChannel {
     private String link;
     @Column(name = "price")
     private Integer price;
-
 }

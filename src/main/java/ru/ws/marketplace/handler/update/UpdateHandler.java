@@ -1,4 +1,4 @@
-package ru.ws.marketplace.handler.message;
+package ru.ws.marketplace.handler.update;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerPreCheckoutQuery;
@@ -10,11 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
+import ru.ws.marketplace.handler.message.MessageHandler;
 import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutPayment;
 import ru.ws.marketplace.state.dialog.DialogueContext;
 
 @Component
-public class HandleIncomingMessageService {
+public class UpdateHandler {
 
     private final DialogueContext context = new DialogueContext();
     private final MessageHandler messageHandler;
@@ -23,7 +24,7 @@ public class HandleIncomingMessageService {
 
     private BotApiMethod<?> replyMessage;
 
-    public HandleIncomingMessageService(MessageHandler messageHandler, ButtonClickHandler callbackHandler, PreCheckoutPayment preCheckoutPayment) {
+    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler callbackHandler, PreCheckoutPayment preCheckoutPayment) {
         this.messageHandler = messageHandler;
         this.callbackHandler = callbackHandler;
         this.preCheckoutPayment = preCheckoutPayment;

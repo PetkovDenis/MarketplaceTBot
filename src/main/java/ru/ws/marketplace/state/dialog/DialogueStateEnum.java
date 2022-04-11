@@ -2,6 +2,7 @@ package ru.ws.marketplace.state.dialog;
 
 public enum DialogueStateEnum {
     NAME("NAME"),
+    CATEGORY("CATEGORY"),
     DESCRIPTION("DESCRIPTION"),
     LINK("LINK"),
     PRICE("PRICE"),

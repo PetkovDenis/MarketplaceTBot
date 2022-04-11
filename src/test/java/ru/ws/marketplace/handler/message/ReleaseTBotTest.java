@@ -3,11 +3,10 @@ package ru.ws.marketplace.handler.message;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.ws.marketplace.bot.TBot;
-import ru.ws.marketplace.model.TChannel;
+import ru.ws.marketplace.handler.update.UpdateHandler;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 class ReleaseTBotTest {
 
-    private final HandleIncomingMessageService handleIncomingMessageService = mock(HandleIncomingMessageService.class);
+    private final UpdateHandler handleIncomingMessageService = mock(UpdateHandler.class);
     private final CRUDChannelServiceImpl crudChannelService = mock(CRUDChannelServiceImpl.class);
 
     private static final Long chatId = 3L;
