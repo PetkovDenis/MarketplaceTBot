@@ -45,6 +45,7 @@ class ReleaseTBotTest {
                 .build();
 
         //Act
+
         when(crudChannelService.findByName(nameChannel)).thenReturn(channel);
 
         TChannel byName = crudChannelService.findByName(nameChannel);
