@@ -15,12 +15,9 @@ public class CreateMessage {
         this.sendPaymentCard = sendPaymentCard;
     }
 
-
     public BotApiMethod<?> getPayment(Long chatId, TChannel byName) {
-
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId.toString());
-        BotApiMethod<?> botApiMethod = sendPaymentCard.sendPayment(byName, sendMessage);
-        return botApiMethod;
+        return sendPaymentCard.sendPayment(byName, sendMessage);
     }
 }

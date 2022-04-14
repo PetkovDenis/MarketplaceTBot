@@ -1,18 +1,15 @@
 package ru.ws.marketplace.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Entity
 @Table(name = "channels")
+@Builder
 public class TChannel {
 
     @Id()
@@ -29,4 +26,15 @@ public class TChannel {
     private String link;
     @Column(name = "price")
     private Integer price;
+
+    public TChannel(){}
+
+    public TChannel(Long id, String category, String name, String description, String link, Integer price) {
+        this.id = id;
+        this.category = category;
+        this.name = name;
+        this.description = description;
+        this.link = link;
+        this.price = price;
+    }
 }

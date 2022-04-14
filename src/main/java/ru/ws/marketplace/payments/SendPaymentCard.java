@@ -15,8 +15,10 @@ public class SendPaymentCard {
 
     String providerToken = "284685063:TEST:NTM0MmI5N2FkYjBj";
 
+    private final SendInvoice sendInvoice = new SendInvoice();
+
     public BotApiMethod<?> sendPayment(TChannel channel, SendMessage message) {
-        SendInvoice sendInvoice = new SendInvoice();
+       // SendInvoice sendInvoice = new SendInvoice();
         sendInvoice.setChatId(message.getChatId());
         sendInvoice.setCurrency("RUB");
         sendInvoice.setPrices(Collections.singletonList(new LabeledPrice("Стоимость подписки", channel.getPrice() * 100)));
@@ -24,6 +26,10 @@ public class SendPaymentCard {
         sendInvoice.setPayload(channel.getId().toString());
         sendInvoice.setTitle(channel.getName());
         sendInvoice.setDescription(channel.getDescription());
+        return sendInvoice;
+    }
+
+    public SendInvoice getSendInvoice() {
         return sendInvoice;
     }
 }
