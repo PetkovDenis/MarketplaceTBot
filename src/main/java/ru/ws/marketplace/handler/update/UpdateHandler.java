@@ -24,9 +24,9 @@ public class UpdateHandler {
 
     private BotApiMethod<?> replyMessage;
 
-    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler callbackHandler, PreCheckoutPayment preCheckoutPayment) {
+    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutPayment preCheckoutPayment) {
         this.messageHandler = messageHandler;
-        this.callbackHandler = callbackHandler;
+        this.callbackHandler = buttonClickHandler;
         this.preCheckoutPayment = preCheckoutPayment;
     }
 
