@@ -11,7 +11,9 @@ public class DialogueContext {
         this.state = state;
     }
 
-    public DialogueState getState() {return state;}
+    public DialogueState getState() {
+        return state;
+    }
 
     public void nextState() {
         state.nextState(this);

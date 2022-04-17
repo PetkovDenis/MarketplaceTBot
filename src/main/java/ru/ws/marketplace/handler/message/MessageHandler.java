@@ -47,7 +47,7 @@ public class MessageHandler {
     }
 
 
-    private BotApiMethod<?> getTChannel(Message message) {
+    public BotApiMethod<?> getTChannel(Message message) {
 
         BotApiMethod<?> result;
 

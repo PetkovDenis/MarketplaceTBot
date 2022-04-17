@@ -3,10 +3,10 @@ package ru.ws.marketplace.state.dialog;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.ws.marketplace.model.TChannel;
 
-public class Category implements DialogueState{
+public class Category implements DialogueState {
     @Override
     public void nextState(DialogueContext context) {
-    context.setState(new Name());
+        context.setState(new Name());
     }
 
     @Override

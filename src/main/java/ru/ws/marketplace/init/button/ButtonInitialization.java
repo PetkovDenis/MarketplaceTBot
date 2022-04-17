@@ -109,7 +109,7 @@ public class ButtonInitialization {
         return keyboard;
     }
 
-    public ReplyKeyboardMarkup getAllCategories(){
+    public ReplyKeyboardMarkup getAllCategories() {
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
@@ -131,7 +131,7 @@ public class ButtonInitialization {
         keyboardRows.add(keyboardRow2);
 
         replyKeyboardMarkup.setKeyboard(keyboardRows);
-       return replyKeyboardMarkup;
+        return replyKeyboardMarkup;
 
     }
 }

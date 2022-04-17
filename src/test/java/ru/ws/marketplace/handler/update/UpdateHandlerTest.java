@@ -16,24 +16,22 @@ import static org.mockito.Mockito.*;
 
 class UpdateHandlerTest {
 
+    private CallbackQuery callbackQuery = new CallbackQuery();
+    private Message message = new Message();
+    private Update update = new Update();
+    private BotApiMethod<?> botApiMethod;
+
+    private ButtonClickHandler buttonClickHandler = mock(ButtonClickHandler.class);
+    private MessageHandler messageHandler = mock(MessageHandler.class);
+    private PreCheckoutPayment preCheckoutPayment = mock(PreCheckoutPayment.class);
+    private UpdateHandler updateHandler = new UpdateHandler(messageHandler, buttonClickHandler, preCheckoutPayment);
+
+
     private String callbackId = "testID";
     private String callbackData = "testData";
 
     private String messageText = "testText";
     private Integer messageId = 100;
-
-    CallbackQuery callbackQuery = new CallbackQuery();
-
-    Message message = new Message();
-
-    ButtonClickHandler buttonClickHandler = mock(ButtonClickHandler.class);
-    MessageHandler messageHandler = mock(MessageHandler.class);
-    PreCheckoutPayment preCheckoutPayment = mock(PreCheckoutPayment.class);
-
-    UpdateHandler updateHandler = new UpdateHandler(messageHandler, buttonClickHandler, preCheckoutPayment);
-
-    Update update = new Update();
-    BotApiMethod<?> botApiMethod;
 
     @Test
     void handleButtonClick() {
@@ -42,7 +40,6 @@ class UpdateHandlerTest {
         callbackQuery.setData(callbackData);
 
         update.setCallbackQuery(callbackQuery);
-
         // Act
         botApiMethod = updateHandler.handleUpdate(update);
 

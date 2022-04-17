@@ -1,6 +1,9 @@
 package ru.ws.marketplace.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -27,7 +30,8 @@ public class TChannel {
     @Column(name = "price")
     private Integer price;
 
-    public TChannel(){}
+    public TChannel() {
+    }
 
     public TChannel(Long id, String category, String name, String description, String link, Integer price) {
         this.id = id;
