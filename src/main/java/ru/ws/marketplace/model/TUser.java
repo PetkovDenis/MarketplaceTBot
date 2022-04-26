@@ -23,7 +23,7 @@ public class TUser {
     public String firstName;
     @Column(name = "last_name")
     public String lastName;
-    @Column(name = "chat_Id")
+    @Column(name = "chat_id")
     public Long chatId;
     @Column(name = "link")
     public String link;
