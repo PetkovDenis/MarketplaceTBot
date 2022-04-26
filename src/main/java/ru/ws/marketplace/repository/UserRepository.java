@@ -7,4 +7,5 @@ import ru.ws.marketplace.model.TUser;
 @Service
 public interface UserRepository extends JpaRepository<TUser, Long> {
     TUser getByFirstName(String firstName);
+    TUser getByLastName(String lastName);
 }

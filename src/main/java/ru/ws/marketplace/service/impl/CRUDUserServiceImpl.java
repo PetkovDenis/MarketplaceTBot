@@ -61,6 +61,11 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     @Override
     public TUser findByFirstName(String firstName) {
         return userRepository.getByFirstName(firstName);
-
     }
+
+    @Override
+    public TUser findByLastName(String lastName) {
+        return userRepository.getByLastName(lastName);
+    }
+
 }

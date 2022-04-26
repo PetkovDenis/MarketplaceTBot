@@ -9,16 +9,20 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.update.UpdateHandler;
 import ru.ws.marketplace.handler.user.UserHandler;
+import ru.ws.marketplace.model.TChannel;
+import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 
 @Component
 public class TBot extends TelegramLongPollingBot {
 
     private final UpdateHandler handleUpdate;
     private final UserHandler userHandler;
+    private final CRUDChannelServiceImpl crudChannelService;
 
-    public TBot(UpdateHandler handleIncomingMessageService, UserHandler userHandler) {
+    public TBot(UpdateHandler handleIncomingMessageService, UserHandler userHandler, CRUDChannelServiceImpl crudChannelService) {
         this.handleUpdate = handleIncomingMessageService;
         this.userHandler = userHandler;
+        this.crudChannelService = crudChannelService;
     }
 
     @Override
@@ -38,7 +42,8 @@ public class TBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             if (message.hasSuccessfulPayment()) {
                 SuccessfulPayment successfulPayment = message.getSuccessfulPayment();
-                SendMessage replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! Информация о плетеже\n Ссылка на канал: ");
+                TChannel tChannel = crudChannelService.get(Long.valueOf(successfulPayment.getInvoicePayload()));
+                SendMessage replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен!\n Ссылка на канал:" + tChannel.getLink());
                 execute(replyMessage);
             }
             if (message.hasText()) {

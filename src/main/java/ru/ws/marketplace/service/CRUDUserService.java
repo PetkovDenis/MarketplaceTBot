@@ -20,5 +20,8 @@ public interface CRUDUserService {
     TUser get(Long id);
 
     @SneakyThrows
-    TUser findByFirstName(String name);
+    TUser findByFirstName(String firstName);
+
+    @SneakyThrows
+    TUser findByLastName(String lastName);
 }

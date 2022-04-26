@@ -7,11 +7,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
 import ru.ws.marketplace.handler.message.MessageHandler;
 import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutPayment;
+import ru.ws.marketplace.model.TChannel;
+import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 import ru.ws.marketplace.state.dialog.DialogueContext;
@@ -48,12 +51,16 @@ public class UpdateHandler {
 
         } else if (update.hasPreCheckoutQuery()) {
             PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
-            //Сохранение ссылки в бд для конкретного пользователя
-            //  User user = preCheckoutQuery.getFrom();
-            //  String firstName = user.getFirstName();
-            //  TUser tUser = crudUserService.findByFirstName(firstName);
-            //  TChannel tChannel = crudChannelService.get(Long.valueOf(preCheckoutQuery.getInvoicePayload()));
-            //  tUser.setLink(tChannel.getLink());
+
+            User user = preCheckoutQuery.getFrom();
+            String lastName = user.getLastName();
+
+            TUser tUser = crudUserService.findByLastName(lastName);
+
+            TChannel tChannel = crudChannelService.get(Long.valueOf(preCheckoutQuery.getInvoicePayload()));
+            tUser.setLink(tChannel.getLink());
+
+            crudUserService.add(tUser);// неизвестно поведение в реальных условиях
 
             result = preCheckoutPayment.resultPreCheckout();
             replyMessage = new AnswerPreCheckoutQuery(preCheckoutQuery.getId(), result);
