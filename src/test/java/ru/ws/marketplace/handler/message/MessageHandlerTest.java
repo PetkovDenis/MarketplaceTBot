@@ -29,8 +29,10 @@ public class MessageHandlerTest {
 
     @Test
     public void getTChannel() {
+
         //Arrange
         message = getCreatedMessage();
+
         //Act
         resultMethod = messageHandler.getTChannel(message);
 
@@ -47,8 +49,10 @@ public class MessageHandlerTest {
 
     @Test
     public void dialogWithClient() {
+
         //Arrange
         message = getCreatedMessage();
+
         // Act
         resultMethod = messageHandler.dialogWithClient(message,eq(any()));
 

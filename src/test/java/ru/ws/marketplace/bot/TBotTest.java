@@ -1,4 +1,4 @@
-package ru.ws.marketplace.handler.bot;
+package ru.ws.marketplace.bot;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

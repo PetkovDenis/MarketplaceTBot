@@ -3,21 +3,20 @@ package ru.ws.marketplace.bot;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.ws.marketplace.handler.update.UpdateHandler;
-import ru.ws.marketplace.init.button.ButtonInitialization;
+import ru.ws.marketplace.handler.user.UserHandler;
 
 @Component
 public class TBot extends TelegramLongPollingBot {
 
-    private final ButtonInitialization mainMenuService = new ButtonInitialization();
-
     private final UpdateHandler handleUpdate;
+    private final UserHandler userHandler;
 
-    public TBot(UpdateHandler handleIncomingMessageService) {
+    public TBot(UpdateHandler handleIncomingMessageService, UserHandler userHandler) {
         this.handleUpdate = handleIncomingMessageService;
+        this.userHandler = userHandler;
     }
 
     @Override
@@ -37,11 +36,7 @@ public class TBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             if (message.hasText()) {
                 if (message.getText().equals("/start")) {
-                    execute(SendMessage.builder()
-                            .chatId(message.getChatId().toString())
-                            .text("Здравствуйте!")
-                            .replyMarkup(mainMenuService.getKeyboard())
-                            .build());
+                    execute(userHandler.handleMessage(message));
                 } else {
                     execute(handleUpdate.handleUpdate(update));
                 }

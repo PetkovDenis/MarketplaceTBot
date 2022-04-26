@@ -1,5 +1,4 @@
 package ru.ws.marketplace.handler.button;
-
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -23,7 +22,6 @@ public class ButtonClickHandler {
 
     public BotApiMethod<?> handleCallback(CallbackQuery buttonQuery, DialogueContext context) {
         Long chatId = buttonQuery.getMessage().getChatId();
-
         BotApiMethod<?> callBackAnswer = buttonInitialization.getMainMessage(chatId, "Воспользуйтесь главным меню");
         switch (buttonQuery.getData()) {
             case "buttonSubscribe":

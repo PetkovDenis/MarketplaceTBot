@@ -16,11 +16,9 @@ import java.util.List;
 @Component
 public class ButtonInitialization {
 
-
     public SendMessage getMainMessage(long chatId, String textMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
-        SendMessage mainMenuMessage = createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
-        return mainMenuMessage;
+        return createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
     }
 
     private SendMessage createMessageWithKeyboard(long chatId, String textMessage, ReplyKeyboardMarkup replyKeyboardMarkup) {
@@ -51,8 +49,8 @@ public class ButtonInitialization {
             keyboardMarkups.add(row1);
         }
         keyboardMarkup.setKeyboard(keyboardMarkups);
-        SendMessage mainMenuMessage = createMessageWithKeyboard(chatId, "Выберите один из каналов", keyboardMarkup);
-        return mainMenuMessage;
+
+        return createMessageWithKeyboard(chatId, "Выберите один из каналов", keyboardMarkup);
     }
 
 
@@ -89,15 +87,10 @@ public class ButtonInitialization {
         buttonSubscribe.setText("Оформить подписку на ресурс");
         buttonSubscribe.setCallbackData("buttonSubscribe");
 
-        InlineKeyboardButton buttonHelp = new InlineKeyboardButton();
-        buttonHelp.setText("Инструкция");
-        buttonHelp.setCallbackData("buttonHelp");
-
         List<InlineKeyboardButton> keyboardButtons1 = new ArrayList<>();
         keyboardButtons1.add(buttonSubscribe);
 
         List<InlineKeyboardButton> keyboardButtons2 = new ArrayList<>();
-        keyboardButtons2.add(buttonHelp);
         keyboardButtons2.add(buttonAddResources);
 
         List<List<InlineKeyboardButton>> listsKeyboards = new ArrayList<>();
@@ -132,6 +125,5 @@ public class ButtonInitialization {
 
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
-
     }
 }

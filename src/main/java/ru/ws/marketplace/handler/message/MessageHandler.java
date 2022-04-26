@@ -61,7 +61,6 @@ public class MessageHandler {
         return result;
     }
 
-
     public SendMessage dialogWithClient(Message message, DialogueContext context) {
         Map<String, DialogueState> commandMap = commandState.getCommandMap();
         DialogueState dialogueState = commandMap.get(context.getStatusName());

@@ -35,11 +35,13 @@ class UpdateHandlerTest {
 
     @Test
     void handleButtonClick() {
+
         // Arrange
         callbackQuery.setId(callbackId);
         callbackQuery.setData(callbackData);
 
         update.setCallbackQuery(callbackQuery);
+
         // Act
         botApiMethod = updateHandler.handleUpdate(update);
 
@@ -58,11 +60,13 @@ class UpdateHandlerTest {
 
     @Test
     public void handleMessage() {
+
         //Arrange
         message.setMessageId(messageId);
         message.setText(messageText);
 
         update.setMessage(message);
+
         //Act
         botApiMethod = updateHandler.handleUpdate(update);
 

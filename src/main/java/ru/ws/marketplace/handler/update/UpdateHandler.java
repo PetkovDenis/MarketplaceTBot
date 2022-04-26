@@ -21,8 +21,8 @@ public class UpdateHandler {
     private final MessageHandler messageHandler;
     private final ButtonClickHandler callbackHandler;
     private final PreCheckoutPayment preCheckoutPayment;
-
     private BotApiMethod<?> replyMessage;
+
 
     public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutPayment preCheckoutPayment) {
         this.messageHandler = messageHandler;
@@ -34,13 +34,15 @@ public class UpdateHandler {
 
         Message message = update.getMessage();
 
+        boolean result;
+
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             return callbackHandler.handleCallback(callbackQuery, context);
 
         } else if (update.hasPreCheckoutQuery()) {
             PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
-            boolean result = preCheckoutPayment.resultPreCheckout();
+            result = preCheckoutPayment.resultPreCheckout();
             replyMessage = new AnswerPreCheckoutQuery(preCheckoutQuery.getId(), result);
         }
 
@@ -51,7 +53,7 @@ public class UpdateHandler {
         if (message.hasSuccessfulPayment()) {
             SuccessfulPayment successfulPayment = message.getSuccessfulPayment();
             String invoicePayload = successfulPayment.getInvoicePayload();
-            replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! Информация о плетеже" + invoicePayload);
+            replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! Информация о плетеже" + invoicePayload + "\n Ссылка на канал: ");
         }
 
         if (message.hasText()) {
