@@ -1,8 +1,10 @@
-package ru.ws.marketplace.service;
+package ru.ws.marketplace.service.crud;
 
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TUser;
+
+import java.util.List;
 
 @Service
 public interface CRUDUserService {
@@ -24,4 +26,10 @@ public interface CRUDUserService {
 
     @SneakyThrows
     TUser findByLastName(String lastName);
+
+//    @SneakyThrows
+//    List<TUser> getAllUsers();
+
+    @SneakyThrows
+    List<TUser> getAllByEndDate();
 }

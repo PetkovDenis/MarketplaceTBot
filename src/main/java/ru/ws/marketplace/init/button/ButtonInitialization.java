@@ -115,7 +115,7 @@ public class ButtonInitialization {
         KeyboardRow keyboardRow1 = new KeyboardRow();
         KeyboardRow keyboardRow2 = new KeyboardRow();
 
-        keyboardRow1.add(new KeyboardButton("Спорт \uD83E\uDD3C\u200D♂️"));
+        keyboardRow1.add(new KeyboardButton("Спорт \uD83E\uDD3C\u200D♂"));
         keyboardRow1.add(new KeyboardButton("Кулинария \uD83C\uDF54"));
         keyboardRow2.add(new KeyboardButton("Прогнозы на спорт \uD83D\uDCC8⛹"));
         keyboardRow2.add(new KeyboardButton("Технологии ⌚"));

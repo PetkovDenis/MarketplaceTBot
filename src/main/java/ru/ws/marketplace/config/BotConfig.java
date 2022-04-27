@@ -10,7 +10,7 @@ import ru.ws.marketplace.bot.TBot;
 @Configuration
 public class BotConfig {
 
-    final TBot tBot;
+    private final TBot tBot;
 
     public BotConfig(TBot tBot) {
         this.tBot = tBot;

@@ -19,12 +19,12 @@ public class MessageHandler {
 
     private final TChannel channel = new TChannel();
     private final CRUDChannelServiceImpl crudChannelService;
-    private final CreateMessage createMessage;
+    private final CreateMessageWithPayment createMessage;
     private final MapCommandState commandState;
     private final SendMessage sendMessage = new SendMessage();
 
     @Autowired
-    public MessageHandler(CRUDChannelServiceImpl crudChannelService, CreateMessage createMessage, MapCommandState commandState) {
+    public MessageHandler(CRUDChannelServiceImpl crudChannelService, CreateMessageWithPayment createMessage, MapCommandState commandState) {
         this.crudChannelService = crudChannelService;
         this.createMessage = createMessage;
         this.commandState = commandState;
@@ -32,7 +32,9 @@ public class MessageHandler {
 
     @SneakyThrows
     public BotApiMethod<?> sortedMessage(Message message, DialogueContext context) {
+
         BotApiMethod<?> result;
+
         try {
             if (context.getStatusName() != null && !context.getStatusName().equals("END")) {
                 result = dialogWithClient(message, context);

@@ -1,4 +1,4 @@
-package ru.ws.marketplace.service;
+package ru.ws.marketplace.service.crud;
 
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;

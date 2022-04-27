@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.repository.UserRepository;
-import ru.ws.marketplace.service.CRUDUserService;
+import ru.ws.marketplace.service.crud.CRUDUserService;
 
 import java.sql.SQLException;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Service
 public class CRUDUserServiceImpl implements CRUDUserService {
@@ -68,4 +70,8 @@ public class CRUDUserServiceImpl implements CRUDUserService {
         return userRepository.getByLastName(lastName);
     }
 
+    @Override
+    public List<TUser> getAllByEndDate() {
+        return userRepository.getAllByEndDate(new GregorianCalendar());
+    }
 }

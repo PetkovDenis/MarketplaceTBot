@@ -22,4 +22,3 @@ public class MapCommandState {
         commandMap.put("END", new End());
     }
 }
-// Реализовать аннотацию Qualifier

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.repository.ChannelRepository;
-import ru.ws.marketplace.service.CRUDChannelService;
+import ru.ws.marketplace.service.crud.CRUDChannelService;
 
 import java.sql.SQLException;
 

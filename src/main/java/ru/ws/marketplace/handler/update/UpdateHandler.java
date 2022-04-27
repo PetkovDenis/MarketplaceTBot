@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
+import ru.ws.marketplace.handler.date.HandleDate;
 import ru.ws.marketplace.handler.message.MessageHandler;
 import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutPayment;
 import ru.ws.marketplace.model.TChannel;
@@ -28,15 +29,17 @@ public class UpdateHandler {
     private final PreCheckoutPayment preCheckoutPayment;
     private final CRUDUserServiceImpl crudUserService;
     private final CRUDChannelServiceImpl crudChannelService;
+    private final HandleDate handleDate;
     private BotApiMethod<?> replyMessage;
 
 
-    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutPayment preCheckoutPayment, CRUDUserServiceImpl crudUserService, CRUDChannelServiceImpl crudChannelService) {
+    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutPayment preCheckoutPayment, CRUDUserServiceImpl crudUserService, CRUDChannelServiceImpl crudChannelService, HandleDate date) {
         this.messageHandler = messageHandler;
         this.callbackHandler = buttonClickHandler;
         this.preCheckoutPayment = preCheckoutPayment;
         this.crudUserService = crudUserService;
         this.crudChannelService = crudChannelService;
+        this.handleDate = date;
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
@@ -51,20 +54,21 @@ public class UpdateHandler {
 
         } else if (update.hasPreCheckoutQuery()) {
             PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
-
             User user = preCheckoutQuery.getFrom();
             String lastName = user.getLastName();
 
             TUser tUser = crudUserService.findByLastName(lastName);
 
             TChannel tChannel = crudChannelService.get(Long.valueOf(preCheckoutQuery.getInvoicePayload()));
+
             tUser.setLink(tChannel.getLink());
+            tUser.setStartDate(handleDate.getStartDate());
+            tUser.setEndDate(handleDate.getEndDate());
 
-            crudUserService.add(tUser);// неизвестно поведение в реальных условиях
+            crudUserService.add(tUser);
 
-            result = preCheckoutPayment.resultPreCheckout();
-            replyMessage = new AnswerPreCheckoutQuery(preCheckoutQuery.getId(), result);
-            return replyMessage;
+            result = preCheckoutPayment.resultPreCheckout(preCheckoutQuery);
+            return replyMessage = new AnswerPreCheckoutQuery(preCheckoutQuery.getId(), result);
         }
 
         if (!update.hasMessage()) {
@@ -75,7 +79,6 @@ public class UpdateHandler {
             SuccessfulPayment successfulPayment = message.getSuccessfulPayment();
             String invoicePayload = successfulPayment.getInvoicePayload();
             replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! Информация о плетеже" + invoicePayload + "\n Ссылка на канал: ");
-
         }
 
         if (message.hasText()) {

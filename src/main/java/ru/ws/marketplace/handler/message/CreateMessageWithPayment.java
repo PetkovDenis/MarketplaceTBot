@@ -7,17 +7,17 @@ import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.payments.SendPaymentCard;
 
 @Component
-public class CreateMessage {
+public class CreateMessageWithPayment {
 
     final SendPaymentCard sendPaymentCard;
 
-    public CreateMessage(SendPaymentCard sendPaymentCard) {
+    public CreateMessageWithPayment(SendPaymentCard sendPaymentCard) {
         this.sendPaymentCard = sendPaymentCard;
     }
 
-    public BotApiMethod<?> getPayment(Long chatId, TChannel byName) {
+    public BotApiMethod<?> getPayment(Long chatId, TChannel channel) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId.toString());
-        return sendPaymentCard.sendPayment(byName, sendMessage);
+        return sendPaymentCard.sendPayment(channel, sendMessage);
     }
 }

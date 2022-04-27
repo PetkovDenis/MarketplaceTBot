@@ -1,11 +1,9 @@
 package ru.ws.marketplace.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 @Getter
 @Setter
@@ -13,29 +11,26 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @Builder
+@AllArgsConstructor
 public class TUser {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public Long id;
+    private Long id;
     @Column(name = "first_name")
-    public String firstName;
+    private String firstName;
     @Column(name = "last_name")
-    public String lastName;
+    private String lastName;
     @Column(name = "chat_id")
-    public Long chatId;
+    private Long chatId;
     @Column(name = "link")
-    public String link;
+    private String link;
+    @Column(name = "start_date")
+    private Calendar startDate;
+    @Column(name = "end_date")
+    private Calendar endDate;
 
     public TUser() {
-    }
-
-    public TUser(Long id, String firstName, String lastName, Long chatId, String link) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.chatId = chatId;
-        this.link = link;
     }
 }
