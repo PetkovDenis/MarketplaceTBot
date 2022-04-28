@@ -7,17 +7,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
-import ru.ws.marketplace.handler.date.HandleDate;
 import ru.ws.marketplace.handler.message.MessageHandler;
-import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutPayment;
-import ru.ws.marketplace.model.TChannel;
-import ru.ws.marketplace.model.TUser;
-import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
-import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
+import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutQueryHandler;
 import ru.ws.marketplace.state.dialog.DialogueContext;
 
 @Component
@@ -26,27 +20,20 @@ public class UpdateHandler {
     private final DialogueContext context = new DialogueContext();
     private final MessageHandler messageHandler;
     private final ButtonClickHandler callbackHandler;
-    private final PreCheckoutPayment preCheckoutPayment;
-    private final CRUDUserServiceImpl crudUserService;
-    private final CRUDChannelServiceImpl crudChannelService;
-    private final HandleDate handleDate;
+
     private BotApiMethod<?> replyMessage;
+    private final PreCheckoutQueryHandler preCheckoutQueryHandler;
 
 
-    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutPayment preCheckoutPayment, CRUDUserServiceImpl crudUserService, CRUDChannelServiceImpl crudChannelService, HandleDate date) {
+    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutQueryHandler preCheckoutQueryHandler) {
         this.messageHandler = messageHandler;
         this.callbackHandler = buttonClickHandler;
-        this.preCheckoutPayment = preCheckoutPayment;
-        this.crudUserService = crudUserService;
-        this.crudChannelService = crudChannelService;
-        this.handleDate = date;
+        this.preCheckoutQueryHandler = preCheckoutQueryHandler;
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
 
         Message message = update.getMessage();
-
-        boolean result;
 
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
@@ -54,20 +41,7 @@ public class UpdateHandler {
 
         } else if (update.hasPreCheckoutQuery()) {
             PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
-            User user = preCheckoutQuery.getFrom();
-            String lastName = user.getLastName();
-
-            TUser tUser = crudUserService.findByLastName(lastName);
-
-            TChannel tChannel = crudChannelService.get(Long.valueOf(preCheckoutQuery.getInvoicePayload()));
-
-            tUser.setLink(tChannel.getLink());
-            tUser.setStartDate(handleDate.getStartDate());
-            tUser.setEndDate(handleDate.getEndDate());
-
-            crudUserService.add(tUser);
-
-            result = preCheckoutPayment.resultPreCheckout(preCheckoutQuery);
+            boolean result = preCheckoutQueryHandler.handlePreCheckoutQuery(preCheckoutQuery);
             return replyMessage = new AnswerPreCheckoutQuery(preCheckoutQuery.getId(), result);
         }
 

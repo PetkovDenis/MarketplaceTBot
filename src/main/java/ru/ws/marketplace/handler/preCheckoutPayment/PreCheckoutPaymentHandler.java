@@ -5,11 +5,11 @@ import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 
 @Component
-public class PreCheckoutPayment {
+public class PreCheckoutPaymentHandler {
 
     private final CRUDChannelServiceImpl crudChannelService;
 
-    public PreCheckoutPayment(CRUDChannelServiceImpl crudChannelService) {
+    public PreCheckoutPaymentHandler(CRUDChannelServiceImpl crudChannelService) {
         this.crudChannelService = crudChannelService;
     }
 

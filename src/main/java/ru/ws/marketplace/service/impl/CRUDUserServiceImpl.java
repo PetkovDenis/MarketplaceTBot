@@ -74,4 +74,9 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     public List<TUser> getAllByEndDate() {
         return userRepository.getAllByEndDate(new GregorianCalendar());
     }
+
+    @Override
+    public TUser getByChatId(Long id) {
+        return userRepository.getByChatId(id);
+    }
 }

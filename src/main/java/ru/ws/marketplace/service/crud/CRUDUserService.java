@@ -27,9 +27,8 @@ public interface CRUDUserService {
     @SneakyThrows
     TUser findByLastName(String lastName);
 
-//    @SneakyThrows
-//    List<TUser> getAllUsers();
-
     @SneakyThrows
     List<TUser> getAllByEndDate();
+
+    TUser getByChatId(Long id);
 }

@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @Component
-public class HandleDate {
+public class DateHandler {
 
     public Calendar getStartDate() {
         Calendar calendar = new GregorianCalendar();

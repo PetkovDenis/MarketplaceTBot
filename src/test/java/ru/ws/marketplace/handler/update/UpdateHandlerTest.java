@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
 import ru.ws.marketplace.handler.message.MessageHandler;
-import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutPayment;
+import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutPaymentHandler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +23,7 @@ class UpdateHandlerTest {
 
     private ButtonClickHandler buttonClickHandler = mock(ButtonClickHandler.class);
     private MessageHandler messageHandler = mock(MessageHandler.class);
-    private PreCheckoutPayment preCheckoutPayment = mock(PreCheckoutPayment.class);
+    private PreCheckoutPaymentHandler preCheckoutPayment = mock(PreCheckoutPaymentHandler.class);
     private UpdateHandler updateHandler = new UpdateHandler(messageHandler, buttonClickHandler, preCheckoutPayment);
 
 

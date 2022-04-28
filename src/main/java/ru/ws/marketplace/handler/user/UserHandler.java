@@ -32,13 +32,12 @@ public class UserHandler {
         User user = message.getFrom();
         TUser client = new TUser();
         client.setFirstName(user.getFirstName());
+        client.setChatId(user.getId());
         if(user.getLastName() != null) {
             client.setLastName(user.getLastName());
         }else {
             client.setLastName("DEFAULT last_name");
         }
-
-        client.setChatId(message.getChatId());
         return client;
     }
 
