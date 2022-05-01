@@ -1,5 +1,6 @@
 package ru.ws.marketplace.handler.update;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerPreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -12,24 +13,20 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
 import ru.ws.marketplace.handler.message.MessageHandler;
 import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutQueryHandler;
+import ru.ws.marketplace.handler.user.UserHandler;
 import ru.ws.marketplace.state.dialog.DialogueContext;
 
 @Component
+@RequiredArgsConstructor
 public class UpdateHandler {
 
     private final DialogueContext context = new DialogueContext();
     private final MessageHandler messageHandler;
     private final ButtonClickHandler callbackHandler;
+    private final UserHandler userHandler;
 
     private BotApiMethod<?> replyMessage;
     private final PreCheckoutQueryHandler preCheckoutQueryHandler;
-
-
-    public UpdateHandler(MessageHandler messageHandler, ButtonClickHandler buttonClickHandler, PreCheckoutQueryHandler preCheckoutQueryHandler) {
-        this.messageHandler = messageHandler;
-        this.callbackHandler = buttonClickHandler;
-        this.preCheckoutQueryHandler = preCheckoutQueryHandler;
-    }
 
     public BotApiMethod<?> handleUpdate(Update update) {
 
@@ -52,7 +49,7 @@ public class UpdateHandler {
         if (message.hasSuccessfulPayment()) {
             SuccessfulPayment successfulPayment = message.getSuccessfulPayment();
             String invoicePayload = successfulPayment.getInvoicePayload();
-            replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! Информация о плетеже" + invoicePayload + "\n Ссылка на канал: ");
+            replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! " + invoicePayload + "\n Ссылка на канал: ");
         }
 
         if (message.hasText()) {

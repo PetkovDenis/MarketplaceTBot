@@ -41,6 +41,22 @@ public class UserHandler {
         return client;
     }
 
+    public TUser createTUser(User user) {
+        TUser client = new TUser();
+        client.setFirstName(user.getFirstName());
+        client.setLastName(user.getLastName());
+        client.setChatId(user.getId());
+        client.setFirstName(user.getFirstName());
+        client.setChatId(user.getId());
+        if(user.getLastName() != null) {
+            client.setLastName(user.getLastName());
+        }else {
+            client.setLastName("DEFAULT last_name");
+        }
+        return client;
+    }
+
+
     public SendMessage createSendMessage(Message message) {
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), "Здравствуйте!");
         sendMessage.setReplyMarkup(mainMenuService.getKeyboard());

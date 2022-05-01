@@ -3,14 +3,17 @@ package ru.ws.marketplace.bot;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMemberCount;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.update.UpdateHandler;
 import ru.ws.marketplace.handler.user.UserHandler;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
+
+import java.util.List;
 
 @Component
 public class TBot extends TelegramLongPollingBot {
@@ -38,6 +41,16 @@ public class TBot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
+
+        if (update.hasChannelPost()) {
+            Message channelPost = update.getChannelPost();
+            List<User> newChatMembers = channelPost.getNewChatMembers();
+            for(User user : newChatMembers){
+                userHandler.createTUser(user);
+            }
+            execute(new SendMessage(channelPost.getChatId().toString(), " Сообщения принято на обработку"));
+        }
+
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.hasSuccessfulPayment()) {
