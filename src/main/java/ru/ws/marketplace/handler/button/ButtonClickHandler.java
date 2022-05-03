@@ -12,8 +12,6 @@ import ru.ws.marketplace.service.ConvertDTOService;
 import ru.ws.marketplace.service.file.CreateExcelFileHandler;
 import ru.ws.marketplace.state.dialog.Category;
 import ru.ws.marketplace.state.dialog.DialogueContext;
-import ru.ws.marketplace.state.file.FileContext;
-import ru.ws.marketplace.state.file.Start;
 
 @Component
 @AllArgsConstructor
@@ -25,7 +23,7 @@ public class ButtonClickHandler {
     private final AdminHandler adminHandler;
     private final UserHandler userHandler;
 
-    public BotApiMethod<?> handleCallback(CallbackQuery buttonQuery, DialogueContext context, FileContext fileContext) {
+    public BotApiMethod<?> handleCallback(CallbackQuery buttonQuery, DialogueContext context) {
         Long chatId = buttonQuery.getMessage().getChatId();
         BotApiMethod<?> callBackAnswer = buttonInitialization.getMainMessage(chatId, "Воспользуйтесь главным меню");
         switch (buttonQuery.getData()) {
@@ -43,7 +41,6 @@ public class ButtonClickHandler {
                 context.setState(new Category());
                 break;
             case "buttonReport":
-                fileContext.setState(new Start());
                 callBackAnswer = buttonInitialization.getMainMessage(chatId, "Выберите отчет");
                 break;
         }

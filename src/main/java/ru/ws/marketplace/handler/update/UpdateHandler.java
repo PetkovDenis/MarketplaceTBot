@@ -1,64 +1,28 @@
 package ru.ws.marketplace.handler.update;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.AnswerPreCheckoutQuery;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
-import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
-import ru.ws.marketplace.handler.button.ButtonClickHandler;
-import ru.ws.marketplace.handler.message.MessageHandler;
-import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutQueryHandler;
-import ru.ws.marketplace.handler.role.UserHandler;
-import ru.ws.marketplace.state.dialog.DialogueContext;
-import ru.ws.marketplace.state.file.FileContext;
+import ru.ws.marketplace.init.update.UpdateProcessor;
+import ru.ws.marketplace.init.update.UpdateStateInitialization;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UpdateHandler {
 
-    private final DialogueContext context = new DialogueContext();
-    private final FileContext fileContext = new FileContext();
-    private final MessageHandler messageHandler;
-    private final ButtonClickHandler callbackHandler;
-    private final UserHandler userHandler;
+    UpdateStateInitialization updateStateInitialization;
 
-    private BotApiMethod<?> replyMessage;
-    private final PreCheckoutQueryHandler preCheckoutQueryHandler;
-
-    public BotApiMethod<?> handleUpdate(Update update) {
-
-        Message message = update.getMessage();
-
-        if (update.hasCallbackQuery()) {
-            CallbackQuery callbackQuery = update.getCallbackQuery();
-            return callbackHandler.handleCallback(callbackQuery, context, fileContext);
-
-        } else if (update.hasPreCheckoutQuery()) {
-            PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
-            boolean result = preCheckoutQueryHandler.handlePreCheckoutQuery(preCheckoutQuery);
-            return replyMessage = new AnswerPreCheckoutQuery(preCheckoutQuery.getId(), result);
+    public BotApiMethod<?> execute(Update update) {
+        for (UpdateProcessor telegramUpdateProcessor : updateStateInitialization.executeUpdate(update)) {
+            Boolean match = telegramUpdateProcessor.getMatcher().apply(update);
+            if (match) {
+                BotApiObject object = telegramUpdateProcessor.getExtractor().apply(update);
+                return telegramUpdateProcessor.getProcessor().apply(object);
+            }
         }
-
-        if (!update.hasMessage()) {
-            return replyMessage;
-        }
-
-        if (message.hasSuccessfulPayment()) {
-            SuccessfulPayment successfulPayment = message.getSuccessfulPayment();
-            String invoicePayload = successfulPayment.getInvoicePayload();
-            replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен! " + invoicePayload + "\n Ссылка на канал: ");
-        }
-
-        if (message.hasText()) {
-            replyMessage = messageHandler.sortedMessage(message, context, fileContext);
-        } else {
-            replyMessage = new SendMessage(update.getMessage().getChatId().toString(), " Сообщения принято на обработку");
-        }
-        return replyMessage;
+        return new SendMessage(update.getUpdateId().toString(), "Данная функция недоступна");
     }
 }

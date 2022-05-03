@@ -24,31 +24,27 @@ public class CreateExcelFileHandler {
 
     @SneakyThrows
     public SendDocument getReadyExcelList(Integer invoiceId, Message message) {
-        // создание самого excel файла в памяти
         HSSFWorkbook workbook = new HSSFWorkbook();
-        // создание листа с названием "Просто лист"
         HSSFSheet sheet = workbook.createSheet("default list");
-        // заполняем список какими-то данными
         List<TUser> dataList = fillData(invoiceId);
-        // счетчик для строк
+
         int rowNum = 0;
-        // создаем подписи к столбцам (это будет первая строчка в листе Excel файла)
+
         Row row = sheet.createRow(rowNum);
         row.createCell(0).setCellValue("Имя пользователя");
         row.createCell(1).setCellValue("Фамилия пользователя");
         row.createCell(2).setCellValue("Внесенная сумма за подписку");
         row.createCell(3).setCellValue("Начало действия подписки");
         row.createCell(4).setCellValue("Окончание действия подписки");
-        // заполняем лист данными
+
         for (TUser user : dataList) {
             createSheetHeader(sheet, ++rowNum, user);
         }
-        // записываем созданный в памяти Excel документ в файл
 
         String path = "/home/denis/file.xls";
-        FileOutputStream out = new FileOutputStream("/home/denis/file.xls");//возможно нужен будет указать расширение
+
+        FileOutputStream out = new FileOutputStream("/home/denis/file.xls");
         workbook.write(out);
-        System.out.println("Excel файл успешно создан!");
 
         File file = new File(path);
 
@@ -61,8 +57,6 @@ public class CreateExcelFileHandler {
         return sendDocument;
     }
 
-    // заполнение строки (rowNum) определенного листа (sheet)
-    // данными  из dataModel созданного в памяти Excel файла
     private void createSheetHeader(HSSFSheet sheet, int rowNum, TUser user) {
         Row row = sheet.createRow(rowNum);
         row.createCell(0).setCellValue(user.getFirstName());
@@ -72,8 +66,6 @@ public class CreateExcelFileHandler {
         row.createCell(4).setCellValue(user.getEndDate());
     }
 
-    // заполняем список рандомными данными
-    // в реальных приложениях данные будут из БД или интернета
     private List<TUser> fillData(Integer invoiceId) {
         return crudUserService.getAllByInvoiceId(invoiceId);
     }

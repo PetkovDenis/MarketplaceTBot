@@ -16,7 +16,6 @@ import ru.ws.marketplace.service.impl.CRUDAdminServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 import ru.ws.marketplace.state.dialog.DialogueContext;
 import ru.ws.marketplace.state.dialog.DialogueState;
-import ru.ws.marketplace.state.file.FileContext;
 
 import java.util.Map;
 
@@ -33,14 +32,12 @@ public class MessageHandler {
     private final CRUDAdminServiceImpl crudAdminService;
 
     @SneakyThrows
-    public BotApiMethod<?> sortedMessage(Message message, DialogueContext dialogueContext, FileContext fileContext) {
+    public BotApiMethod<?> sortedMessage(Message message, DialogueContext dialogueContext) {
 
         BotApiMethod<?> result;
 
+
         try {
-//            if (fileContext.getState() != null && !fileContext.getState().equals("END")) {
-//                result = createFile(message);
-//            }
             if (dialogueContext.getStatusName() != null && !dialogueContext.getStatusName().equals("END")) {
                 result = dialogWithClient(message, dialogueContext);
             } else {
