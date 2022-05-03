@@ -37,6 +37,8 @@ public class PreCheckoutQueryHandler {
         tUser.setLink(tChannel.getLink());
         tUser.setStartDate(dateHandler.getStartDate());
         tUser.setEndDate(dateHandler.getEndDate());
+        tUser.setPayment(preCheckoutQuery.getTotalAmount() / 100); // сумма оплаты
+        tUser.setChannelId(Integer.valueOf(preCheckoutQuery.getInvoicePayload())); // id чата
         crudUserService.add(tUser);
     }
 }

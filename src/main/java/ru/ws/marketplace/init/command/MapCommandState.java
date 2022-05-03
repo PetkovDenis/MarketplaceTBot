@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public class MapCommandState {
 
-    private Map<String, DialogueState> commandMap = new HashMap<>();
+    private final Map<String, DialogueState> commandMap = new HashMap<>();
 
     {
         commandMap.put("NAME", new Name());

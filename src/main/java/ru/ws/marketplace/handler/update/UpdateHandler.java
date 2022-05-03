@@ -13,14 +13,16 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.button.ButtonClickHandler;
 import ru.ws.marketplace.handler.message.MessageHandler;
 import ru.ws.marketplace.handler.preCheckoutPayment.PreCheckoutQueryHandler;
-import ru.ws.marketplace.handler.user.UserHandler;
+import ru.ws.marketplace.handler.role.UserHandler;
 import ru.ws.marketplace.state.dialog.DialogueContext;
+import ru.ws.marketplace.state.file.FileContext;
 
 @Component
 @RequiredArgsConstructor
 public class UpdateHandler {
 
     private final DialogueContext context = new DialogueContext();
+    private final FileContext fileContext = new FileContext();
     private final MessageHandler messageHandler;
     private final ButtonClickHandler callbackHandler;
     private final UserHandler userHandler;
@@ -34,7 +36,7 @@ public class UpdateHandler {
 
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            return callbackHandler.handleCallback(callbackQuery, context);
+            return callbackHandler.handleCallback(callbackQuery, context, fileContext);
 
         } else if (update.hasPreCheckoutQuery()) {
             PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
@@ -53,7 +55,7 @@ public class UpdateHandler {
         }
 
         if (message.hasText()) {
-            replyMessage = messageHandler.sortedMessage(message, context);
+            replyMessage = messageHandler.sortedMessage(message, context, fileContext);
         } else {
             replyMessage = new SendMessage(update.getMessage().getChatId().toString(), " Сообщения принято на обработку");
         }

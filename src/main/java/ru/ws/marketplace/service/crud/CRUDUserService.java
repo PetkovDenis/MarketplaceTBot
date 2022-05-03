@@ -30,5 +30,10 @@ public interface CRUDUserService {
     @SneakyThrows
     List<TUser> getAllByEndDate();
 
+    @SneakyThrows
     TUser getByChatId(Long id);
+
+    @SneakyThrows
+    List<TUser> getAllByInvoiceId(Integer id);
+
 }

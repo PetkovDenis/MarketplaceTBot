@@ -17,10 +17,6 @@ public class PreCheckoutPaymentHandler {
 
         String invoicePayload = preCheckoutQuery.getInvoicePayload();
 
-        if (crudChannelService.get(Long.valueOf(invoicePayload)) != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return crudChannelService.get(Long.valueOf(invoicePayload)) != null;
     }
 }

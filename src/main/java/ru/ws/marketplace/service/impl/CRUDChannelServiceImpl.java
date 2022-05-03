@@ -62,4 +62,9 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     public TChannel findByName(String name) {
         return channelRepository.getTChannelByName(name);
     }
+
+    @Override
+    public TChannel getByChatId(Long id) {
+        return channelRepository.getByChatId(id);
+    }
 }

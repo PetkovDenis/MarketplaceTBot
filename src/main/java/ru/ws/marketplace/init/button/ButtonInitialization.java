@@ -66,7 +66,7 @@ public class ButtonInitialization {
 
         KeyboardRow row1 = new KeyboardRow();
 
-        row1.add(new KeyboardButton("Инструкция по эксплуатации бота"));
+        row1.add(new KeyboardButton("Получить отчет"));
         keyboardMarkups.add(row1);
 
         keyboardMarkup.setKeyboard(keyboardMarkups);
@@ -87,15 +87,24 @@ public class ButtonInitialization {
         buttonSubscribe.setText("Оформить подписку на ресурс");
         buttonSubscribe.setCallbackData("buttonSubscribe");
 
+
+        InlineKeyboardButton buttonReport = new InlineKeyboardButton();
+        buttonReport.setText("Получить отчет");
+        buttonReport.setCallbackData("buttonReport");
+
         List<InlineKeyboardButton> keyboardButtons1 = new ArrayList<>();
         keyboardButtons1.add(buttonSubscribe);
 
         List<InlineKeyboardButton> keyboardButtons2 = new ArrayList<>();
         keyboardButtons2.add(buttonAddResources);
 
+        List<InlineKeyboardButton> keyboardButtons3 = new ArrayList<>();
+        keyboardButtons2.add(buttonReport);
+
         List<List<InlineKeyboardButton>> listsKeyboards = new ArrayList<>();
         listsKeyboards.add(keyboardButtons1);
         listsKeyboards.add(keyboardButtons2);
+        listsKeyboards.add(keyboardButtons3);
 
         keyboard.setKeyboard(listsKeyboards);
 

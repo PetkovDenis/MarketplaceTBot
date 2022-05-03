@@ -79,4 +79,9 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     public TUser getByChatId(Long id) {
         return userRepository.getByChatId(id);
     }
+
+    @Override
+    public List<TUser> getAllByInvoiceId(Integer id) {
+        return userRepository.getAllByChannelId(id);
+    }
 }

@@ -21,4 +21,7 @@ public interface CRUDChannelService {
 
     @SneakyThrows
     TChannel findByName(String name);
+
+    @SneakyThrows
+    TChannel getByChatId(Long id);
 }
