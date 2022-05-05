@@ -1,5 +1,6 @@
 package ru.ws.marketplace.handler.role;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -7,13 +8,10 @@ import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 
 @Component
+@AllArgsConstructor
 public class UserHandler {
 
     private final CRUDUserServiceImpl crudUserService;
-
-    public UserHandler(CRUDUserServiceImpl crudUserService) {
-        this.crudUserService = crudUserService;
-    }
 
     public void handleCallback(CallbackQuery buttonQuery) {
         TUser client = createClient(buttonQuery);

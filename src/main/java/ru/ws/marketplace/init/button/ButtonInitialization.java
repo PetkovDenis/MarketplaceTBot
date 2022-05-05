@@ -99,7 +99,7 @@ public class ButtonInitialization {
         keyboardButtons2.add(buttonAddResources);
 
         List<InlineKeyboardButton> keyboardButtons3 = new ArrayList<>();
-        keyboardButtons2.add(buttonReport);
+        keyboardButtons3.add(buttonReport);
 
         List<List<InlineKeyboardButton>> listsKeyboards = new ArrayList<>();
         listsKeyboards.add(keyboardButtons1);

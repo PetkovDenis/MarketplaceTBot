@@ -13,7 +13,7 @@ import ru.ws.marketplace.init.update.UpdateStateInitialization;
 @AllArgsConstructor
 public class UpdateHandler {
 
-    UpdateStateInitialization updateStateInitialization;
+    private final UpdateStateInitialization updateStateInitialization;
 
     public BotApiMethod<?> execute(Update update) {
         for (UpdateProcessor telegramUpdateProcessor : updateStateInitialization.executeUpdate(update)) {

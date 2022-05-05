@@ -19,7 +19,7 @@ public class TBot extends TelegramLongPollingBot {
 
     private final CRUDChannelServiceImpl crudChannelService;
     private final MessageHandler messageHandler;
-    private final UpdateHandler initialization;
+    private final UpdateHandler updateHandler;
 
     @Override
     public String getBotUsername() {
@@ -48,11 +48,11 @@ public class TBot extends TelegramLongPollingBot {
                 if (message.getText().equals("Получить отчет")) {
                     execute(messageHandler.createFile(message));
                 } else {
-                    execute(initialization.execute(update));
+                    execute(updateHandler.execute(update));
                 }
             }
         } else {
-            execute(initialization.execute(update));
+            execute(updateHandler.execute(update));
         }
     }
 }

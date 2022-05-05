@@ -1,5 +1,6 @@
-package ru.ws.marketplace.handler.preCheckoutPayment;
+package ru.ws.marketplace.handler.preCheckout;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
@@ -10,19 +11,13 @@ import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 
 @Component
+@AllArgsConstructor
 public class PreCheckoutQueryHandler {
 
     private final CRUDChannelServiceImpl crudChannelService;
     private final CRUDUserServiceImpl crudUserService;
     private final DateHandler dateHandler;
     private final PreCheckoutPaymentHandler preCheckoutPaymentHandler;
-
-    public PreCheckoutQueryHandler(CRUDChannelServiceImpl crudChannelService, CRUDUserServiceImpl crudUserService, DateHandler dateHandler, PreCheckoutPaymentHandler preCheckoutPaymentHandler) {
-        this.crudChannelService = crudChannelService;
-        this.crudUserService = crudUserService;
-        this.dateHandler = dateHandler;
-        this.preCheckoutPaymentHandler = preCheckoutPaymentHandler;
-    }
 
     public Boolean handlePreCheckoutQuery(PreCheckoutQuery preCheckoutQuery) {
         User user = preCheckoutQuery.getFrom();
@@ -32,7 +27,7 @@ public class PreCheckoutQueryHandler {
         return preCheckoutPaymentHandler.resultPreCheckout(preCheckoutQuery);
     }
 
-    public void fillingUserData(TUser tUser, PreCheckoutQuery preCheckoutQuery) {
+    private void fillingUserData(TUser tUser, PreCheckoutQuery preCheckoutQuery) {
         TChannel tChannel = crudChannelService.get(Long.valueOf(preCheckoutQuery.getInvoicePayload()));
         tUser.setLink(tChannel.getLink());
         tUser.setStartDate(dateHandler.getStartDate());

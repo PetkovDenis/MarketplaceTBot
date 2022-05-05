@@ -62,8 +62,8 @@ public class CreateExcelFileHandler {
         row.createCell(0).setCellValue(user.getFirstName());
         row.createCell(1).setCellValue(user.getLastName());
         row.createCell(2).setCellValue(user.getPayment());
-        row.createCell(3).setCellValue(user.getStartDate());
-        row.createCell(4).setCellValue(user.getEndDate());
+        row.createCell(3).setCellValue(user.getStartDate().getTime());
+        row.createCell(4).setCellValue(user.getEndDate().getTime());
     }
 
     private List<TUser> fillData(Integer invoiceId) {

@@ -21,11 +21,9 @@ public class ScheduledService {
         this.crudUserService = crudUserService;
     }
 
-    // С помощью zone можно указать:
     // Europe/Moscow	(+03:00) Moscow
     // Asia/Vladivostok 	(+10:00) Vladivostok
     // секунды, минуты, часы, день в месяце, месяц, дней в неделю
-
     @Scheduled(cron = "0 0 10 1 * ?")
     public void checkerUser() {
 
