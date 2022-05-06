@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -27,9 +30,7 @@ public class CreateExcelFileHandler {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("default list");
         List<TUser> dataList = fillData(invoiceId);
-
         int rowNum = 0;
-
         Row row = sheet.createRow(rowNum);
         row.createCell(0).setCellValue("Имя пользователя");
         row.createCell(1).setCellValue("Фамилия пользователя");
@@ -37,12 +38,17 @@ public class CreateExcelFileHandler {
         row.createCell(3).setCellValue("Начало действия подписки");
         row.createCell(4).setCellValue("Окончание действия подписки");
 
+
+        CreationHelper createHelper = workbook.getCreationHelper();
+
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("m/d/yy h:mm"));
+
+
         for (TUser user : dataList) {
-            createSheetHeader(sheet, ++rowNum, user);
+            createSheetHeader(sheet, ++rowNum, user, cellStyle);
         }
-
         String path = "/home/denis/file.xls";
-
         FileOutputStream out = new FileOutputStream("/home/denis/file.xls");
         workbook.write(out);
 
@@ -57,13 +63,21 @@ public class CreateExcelFileHandler {
         return sendDocument;
     }
 
-    private void createSheetHeader(HSSFSheet sheet, int rowNum, TUser user) {
+    private void createSheetHeader(HSSFSheet sheet, int rowNum, TUser user, CellStyle cellStyle) {
         Row row = sheet.createRow(rowNum);
+        Cell cell;
+
         row.createCell(0).setCellValue(user.getFirstName());
         row.createCell(1).setCellValue(user.getLastName());
         row.createCell(2).setCellValue(user.getPayment());
-        row.createCell(3).setCellValue(user.getStartDate().getTime());
-        row.createCell(4).setCellValue(user.getEndDate().getTime());
+
+        cell = row.createCell(3);
+        cell.setCellValue(user.getStartDate().getTime());
+        cell.setCellStyle(cellStyle);
+
+        cell = row.createCell(4);
+        cell.setCellValue(user.getEndDate().getTime());
+        cell.setCellStyle(cellStyle);
     }
 
     private List<TUser> fillData(Integer invoiceId) {
