@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-public class DTOTChannel {
+public class TChannelDTO {
     private Long id;
     private String category;
     private String name;

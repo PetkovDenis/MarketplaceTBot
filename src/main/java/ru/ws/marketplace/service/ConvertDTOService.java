@@ -1,37 +1,30 @@
 package ru.ws.marketplace.service;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.ws.marketplace.dto.DTOTChannel;
+import ru.ws.marketplace.dto.TChannelDTO;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.repository.ChannelRepository;
+import ru.ws.marketplace.test.ChannelMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ConvertDTOService {
 
-    final ChannelRepository channelRepository;
+    private final ChannelRepository channelRepository;
 
-    public ConvertDTOService(ChannelRepository channelRepository) {
-        this.channelRepository = channelRepository;
-    }
-
-    public List<DTOTChannel> getAllDTO() {
+    public List<TChannelDTO> getAllDTO() {
         return channelRepository.findAll()
                 .stream()
                 .map(this::convertDTO)
                 .collect(Collectors.toList());
     }
 
-    private DTOTChannel convertDTO(TChannel channel) {
-        DTOTChannel dtoChannel = new DTOTChannel();
-        dtoChannel.setId(channel.getId());
-        dtoChannel.setName(channel.getName());
-        dtoChannel.setCategory(channel.getCategory());
-        dtoChannel.setDescription(channel.getDescription());
-        dtoChannel.setLink(channel.getLink());
-        dtoChannel.setPrice(channel.getPrice());
-        return dtoChannel;
+    private TChannelDTO convertDTO(TChannel channel) {
+        return ChannelMapper.INSTANCE.channelToDTOChannel(channel);
     }
 }

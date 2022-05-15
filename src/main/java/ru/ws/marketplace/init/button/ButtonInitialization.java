@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.ws.marketplace.dto.DTOTChannel;
+import ru.ws.marketplace.dto.TChannelDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ButtonInitialization {
     }
 
 
-    public SendMessage convertDTOInButton(long chatId, List<DTOTChannel> dtoChannels) {
+    public SendMessage convertDTOInButton(long chatId, List<TChannelDTO> dtoChannels) {
 
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
 
@@ -43,7 +43,7 @@ public class ButtonInitialization {
 
         List<KeyboardRow> keyboardMarkups = new ArrayList<>();
 
-        for (DTOTChannel dtotChannel : dtoChannels) {
+        for (TChannelDTO dtotChannel : dtoChannels) {
             KeyboardRow row1 = new KeyboardRow();
             row1.add(new KeyboardButton(dtotChannel.getName()));
             keyboardMarkups.add(row1);
