@@ -25,43 +25,71 @@ public class CreateExcelFileHandler {
 
     private final CRUDUserServiceImpl crudUserService;
 
+
     @SneakyThrows
-    public SendDocument getReadyExcelList(Integer invoiceId, Message message) {
+    public SendDocument sendFileToUser(Integer invoiceId, Message message) {
+
+        String path = "/home/denis/file.xls";
+        Integer rowNum = 0;
+
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("default list");
-        List<TUser> dataList = fillData(invoiceId);
-        int rowNum = 0;
-        Row row = sheet.createRow(rowNum);
-        row.createCell(0).setCellValue("Имя пользователя");
-        row.createCell(1).setCellValue("Фамилия пользователя");
-        row.createCell(2).setCellValue("Внесенная сумма за подписку");
-        row.createCell(3).setCellValue("Начало действия подписки");
-        row.createCell(4).setCellValue("Окончание действия подписки");
 
+        createRow(sheet, rowNum);
 
         CreationHelper createHelper = workbook.getCreationHelper();
 
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("m/d/yy h:mm"));
 
+        writeUsersInFile(invoiceId, sheet, rowNum, cellStyle);
+        FileOutputStream fileOutputStream = createFileOutputStream(path);
+        workbook.write(fileOutputStream);
+        File file = createFile(path);
+        InputFile inputFile = createInputFile(file);
+        return createDocument(inputFile, message);
+    }
 
-        for (TUser user : dataList) {
+    public void writeUsersInFile(Integer invoiceId, HSSFSheet sheet, Integer rowNum, CellStyle cellStyle) {
+        List<TUser> userList = fillData(invoiceId);
+        for (TUser user : userList) {
             createSheetHeader(sheet, ++rowNum, user, cellStyle);
         }
-        String path = "/home/denis/file.xls";
-        FileOutputStream out = new FileOutputStream("/home/denis/file.xls");
-        workbook.write(out);
+    }
 
-        File file = new File(path);
+    private void createRow(HSSFSheet sheet, Integer rowNum) {
+        Row row = sheet.createRow(rowNum);
+        row.createCell(0).setCellValue("Имя пользователя");
+        row.createCell(1).setCellValue("Фамилия пользователя");
+        row.createCell(2).setCellValue("Внесенная сумма за подписку");
+        row.createCell(3).setCellValue("Начало действия подписки");
+        row.createCell(4).setCellValue("Окончание действия подписки");
+    }
 
+
+    @SneakyThrows
+    private FileOutputStream createFileOutputStream(String path) {
+        FileOutputStream out = new FileOutputStream(path);
+        return out;
+    }
+
+    private File createFile(String path) {
+        return new File(path);
+    }
+
+    private InputFile createInputFile(File file) {
         InputFile inputFile = new InputFile();
         inputFile.setMedia(file);
+        return inputFile;
+    }
 
+    private SendDocument createDocument(InputFile inputFile, Message message) {
         SendDocument sendDocument = new SendDocument();
         sendDocument.setDocument(inputFile);
         sendDocument.setChatId(String.valueOf(message.getChatId()));
         return sendDocument;
     }
+
 
     private void createSheetHeader(HSSFSheet sheet, int rowNum, TUser user, CellStyle cellStyle) {
         Row row = sheet.createRow(rowNum);

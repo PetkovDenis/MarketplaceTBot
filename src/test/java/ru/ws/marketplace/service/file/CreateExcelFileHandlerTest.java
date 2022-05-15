@@ -5,7 +5,6 @@ import org.mockito.ArgumentCaptor;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,15 +27,15 @@ class CreateExcelFileHandlerTest {
         //Arrange
         Message createdMessage = getCreatedMessage();
         //Act
-        createExcelFileHandler.getReadyExcelList(eq(any()),createdMessage);
+        createExcelFileHandler.sendFileToUser(eq(any()),createdMessage);
 
         ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
 
-        verify(createExcelFileHandler).getReadyExcelList(any(),messageArgumentCaptor.capture());
+        verify(createExcelFileHandler).sendFileToUser(any(),messageArgumentCaptor.capture());
 
         Message value = messageArgumentCaptor.getValue();
         //Assert
-        verify(createExcelFileHandler,times(1)).getReadyExcelList(any(),any());
+        verify(createExcelFileHandler,times(1)).sendFileToUser(any(),any());
 
         assertThat(value.getMessageId()).isEqualTo(messageId);
         assertThat(value.getText()).isEqualTo(messageText);

@@ -71,7 +71,7 @@ public class MessageHandler {
             admin.setChannelId(Math.toIntExact(channel.getId()));
             admin.setChannelName(channel.getName());
             crudAdminService.add(admin);
-            readyExcelList = createExcelFileHandler.getReadyExcelList(Math.toIntExact(channel.getId()), message);
+            readyExcelList = createExcelFileHandler.sendFileToUser(Math.toIntExact(channel.getId()), message);
 
         } else {
             readyExcelList = null;

@@ -27,7 +27,7 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
     @Override
     @SneakyThrows
     public void delete(Long id) {
-        if (adminRepository.existsById(id)) {
+        if (searchAdminInDatabase(id)) {
             adminRepository.deleteById(id);
         } else {
             throw new SQLException();
@@ -37,7 +37,7 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
     @Override
     @SneakyThrows
     public void update(TAdmin tAdmin, Long id) {
-        if (adminRepository.existsById(id)) {
+        if (searchAdminInDatabase(id)) {
             adminRepository.deleteById(id);
             tAdmin.setId(id);
             adminRepository.save(tAdmin);
@@ -50,9 +50,9 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
     @SneakyThrows
     public TAdmin get(Long id) {
         TAdmin tAdmin;
-        if (adminRepository.existsById(id)) {
+        if(searchAdminInDatabase(id)){
             tAdmin = adminRepository.getById(id);
-        } else {
+        }else {
             throw new SQLException();
         }
         return tAdmin;
@@ -63,4 +63,8 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
         return adminRepository.getByChatId(id);
     }
 
+    @Override
+    public Boolean searchAdminInDatabase(Long id) {
+        return adminRepository.existsById(id);
+    }
 }

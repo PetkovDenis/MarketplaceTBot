@@ -29,7 +29,7 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     @Override
     @SneakyThrows
     public void delete(Long id) {
-        if (userRepository.existsById(id)) {
+        if (searchUserInDatabase(id)) {
             userRepository.deleteById(id);
         } else {
             throw new SQLException();
@@ -39,7 +39,7 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     @Override
     @SneakyThrows
     public void update(TUser user, Long id) {
-        if (userRepository.existsById(id)) {
+        if (searchUserInDatabase(id)) {
             userRepository.deleteById(id);
             user.setId(id);
             userRepository.save(user);
@@ -52,7 +52,7 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     @SneakyThrows
     public TUser get(Long id) {
         TUser tUser;
-        if (userRepository.existsById(id)) {
+        if (searchUserInDatabase(id)) {
             tUser = userRepository.getById(id);
         } else {
             throw new SQLException();
@@ -83,5 +83,10 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     @Override
     public List<TUser> getAllByInvoiceId(Integer id) {
         return userRepository.getAllByChannelId(id);
+    }
+
+    @Override
+    public Boolean searchUserInDatabase(Long id) {
+      return   userRepository.existsById(id);
     }
 }

@@ -9,31 +9,23 @@ import java.util.List;
 @Service
 public interface CRUDUserService {
 
-    @SneakyThrows
     TUser add(TUser tUser);
 
-    @SneakyThrows
     void delete(Long id);
 
-    @SneakyThrows
     void update(TUser tUser, Long id);
 
-    @SneakyThrows
     TUser get(Long id);
 
-    @SneakyThrows
     TUser findByFirstName(String firstName);
 
-    @SneakyThrows
     TUser findByLastName(String lastName);
 
-    @SneakyThrows
     List<TUser> getAllByEndDate();
 
-    @SneakyThrows
     TUser getByChatId(Long id);
 
-    @SneakyThrows
     List<TUser> getAllByInvoiceId(Integer id);
 
+    Boolean searchUserInDatabase(Long id);
 }

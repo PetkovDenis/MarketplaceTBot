@@ -22,7 +22,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     @Override
     @SneakyThrows
     public void delete(Long id) {
-        if (channelRepository.existsById(id)) {
+        if (searchChannelInDatabase(id)) {
             channelRepository.deleteById(id);
         } else {
             throw new SQLException();
@@ -38,7 +38,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     @SneakyThrows
     public TChannel get(Long id) {
         TChannel receivedChannel;
-        if (channelRepository.existsById(id)) {
+        if (searchChannelInDatabase(id)) {
             receivedChannel = channelRepository.getById(id);
         } else {
             throw new SQLException();
@@ -49,7 +49,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     @Override
     @SneakyThrows
     public void update(TChannel channel, Long id) {
-        if (channelRepository.existsById(id)) {
+        if (searchChannelInDatabase(id)) {
             channelRepository.deleteById(id);
             channel.setId(id);
             channelRepository.save(channel);
@@ -66,5 +66,10 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     @Override
     public TChannel getByChatId(Long id) {
         return channelRepository.getByChatId(id);
+    }
+
+    @Override
+    public Boolean searchChannelInDatabase(Long id) {
+       return channelRepository.existsById(id);
     }
 }
