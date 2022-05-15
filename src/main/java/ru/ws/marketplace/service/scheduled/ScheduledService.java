@@ -3,19 +3,25 @@ package ru.ws.marketplace.service.scheduled;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 
+import java.sql.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @EnableScheduling
 public class ScheduledService {
 
     private final CRUDUserServiceImpl crudUserService;
+
+    private final String url = "jdbc:postgresql://localhost:49153/postgres";
+    private final String user = "postgres";
+    private final String password = "postgres";
+
+    private Connection connection;
+    private Statement statement;
+    private ResultSet resultSet;
 
     public ScheduledService(CRUDUserServiceImpl crudUserService) {
         this.crudUserService = crudUserService;
@@ -27,13 +33,34 @@ public class ScheduledService {
     @Scheduled(cron = "0 0 10 1 * ?")
     public void checkerUser() {
 
-        List<TUser> allTUser = crudUserService.getAllByEndDate();
+        String query = "select id,end_date from users";
 
-        Calendar calendar = new GregorianCalendar();
-        calendar.get(Calendar.DATE);
+        try {
 
-        List<TUser> userList = allTUser.stream().filter(tUser -> tUser.getEndDate().equals(calendar)).collect(Collectors.toList());
+            connection = DriverManager.getConnection(url, user, password);
 
-        allTUser.removeAll(userList);
+            statement = connection.createStatement();
+
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                Date date = resultSet.getDate(2);
+                Calendar calendar = new GregorianCalendar();
+                if (date.equals(calendar.getTime())) {
+                    crudUserService.delete((long) id);
+                }
+            }
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+                statement.close();
+                resultSet.close();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 }

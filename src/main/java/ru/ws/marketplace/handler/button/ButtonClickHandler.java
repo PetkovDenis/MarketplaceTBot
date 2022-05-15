@@ -19,7 +19,6 @@ public class ButtonClickHandler {
 
     private final ButtonInitialization buttonInitialization;
     private final ConvertDTOService convertDTOService;
-    private final CreateExcelFileHandler createExcelFileHandler;
     private final AdminHandler adminHandler;
     private final UserHandler userHandler;
 
