@@ -70,6 +70,6 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
     @Override
     public Boolean searchChannelInDatabase(Long id) {
-       return channelRepository.existsById(id);
+        return channelRepository.existsById(id);
     }
 }

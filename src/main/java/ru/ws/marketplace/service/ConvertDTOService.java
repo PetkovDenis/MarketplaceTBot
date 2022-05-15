@@ -1,12 +1,11 @@
 package ru.ws.marketplace.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.dto.TChannelDTO;
+import ru.ws.marketplace.mapper.ChannelMapper;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.repository.ChannelRepository;
-import ru.ws.marketplace.test.ChannelMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;

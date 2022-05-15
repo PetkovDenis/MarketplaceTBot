@@ -50,9 +50,9 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
     @SneakyThrows
     public TAdmin get(Long id) {
         TAdmin tAdmin;
-        if(searchAdminInDatabase(id)){
+        if (searchAdminInDatabase(id)) {
             tAdmin = adminRepository.getById(id);
-        }else {
+        } else {
             throw new SQLException();
         }
         return tAdmin;

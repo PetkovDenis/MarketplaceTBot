@@ -1,6 +1,5 @@
 package ru.ws.marketplace.service.crud;
 
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TUser;
 

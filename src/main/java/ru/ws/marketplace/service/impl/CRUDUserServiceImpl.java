@@ -87,6 +87,6 @@ public class CRUDUserServiceImpl implements CRUDUserService {
 
     @Override
     public Boolean searchUserInDatabase(Long id) {
-      return   userRepository.existsById(id);
+        return userRepository.existsById(id);
     }
 }
