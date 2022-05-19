@@ -65,6 +65,7 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
 
     @Override
+    @Transactional
     public List<TChannel> getAllChannels() {
         Query query = entityManager.createQuery("SELECT e FROM TChannel e");
         return (List<TChannel>) query.getResultList();

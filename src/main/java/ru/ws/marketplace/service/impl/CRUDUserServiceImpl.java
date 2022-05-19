@@ -58,6 +58,7 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     }
 
     @Override
+    @Transactional
     public List<TUser> getAllUsers() {
         Query query = entityManager.createQuery("SELECT e FROM TUser e");
         return (List<TUser>) query.getResultList();
@@ -86,5 +87,4 @@ public class CRUDUserServiceImpl implements CRUDUserService {
             throw new SQLException();
         }
     }
-
 }
