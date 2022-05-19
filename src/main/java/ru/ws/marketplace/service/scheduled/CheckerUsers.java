@@ -16,6 +16,7 @@ import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.List;
 
@@ -45,26 +46,10 @@ public class CheckerUsers {
 
     @SneakyThrows
     public Integer createRequestOnTelegramAPI(String token, String chatId, String chatName) {
-
         String url = "https://api.telegram.org/bot" + token + "/getChatMembersCount?chat_id=" + chatId + "=@" + chatName;
-        URL obj = new URL(url);
-        StringBuilder response = new StringBuilder();
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            String countUsers = getCountUsers(response.toString());
-            return Integer.valueOf(countUsers);
-        } else {
-            System.out.println("GET request not worked");
-            return null;
-        }
+        StringBuilder response = createRequest(url);
+        String countUsers = getCountUsers(response.toString());
+        return Integer.valueOf(countUsers);
     }
 
     public String getCountUsers(String content) {
@@ -86,6 +71,12 @@ public class CheckerUsers {
     public void createResponseForAdmin(String chatId, Integer countUsers, Integer sizeList) {
         String url = "https://api.telegram.org/bot" + token + "/sendMessage?chat_id=" + chatId + "&text=" + "Количество пользователей в группе: " + countUsers +
                 "                                                                      Количество людей, которые подписались с помощью бота: " + sizeList;
+        StringBuilder response = createRequest(url);
+        getCountUsers(response.toString());
+    }
+
+    @SneakyThrows
+    public StringBuilder createRequest(String url)  {
         URL obj = new URL(url);
         StringBuilder response = new StringBuilder();
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -98,7 +89,9 @@ public class CheckerUsers {
                 response.append(inputLine);
             }
             in.close();
-            getCountUsers(response.toString());
+        }else {
+            throw new ProtocolException();
         }
+        return response;
     }
 }
