@@ -34,6 +34,8 @@ public class TUser {
     private Integer payment;
     @Column(name = "channel_id")
     private Integer channelId;
+    @Column(name = "channel_name")
+    private String channelName;
 
     public TUser() {
     }

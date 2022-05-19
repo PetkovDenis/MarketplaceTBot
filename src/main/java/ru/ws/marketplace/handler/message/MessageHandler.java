@@ -38,7 +38,7 @@ public class MessageHandler {
                 result = getTChannel(message);
             }
         } catch (NullPointerException exception) {
-            exception.printStackTrace();
+            // exception.printStackTrace();
             result = getTChannel(message);
         }
         return result;
@@ -53,7 +53,7 @@ public class MessageHandler {
             TChannel byName = crudChannelService.findByName(message.getText());
             result = createMessage.getPayment(message, byName);
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
+            //    ex.printStackTrace();
             result = new SendMessage(message.getChatId().toString(), "Неизвестная команда - " + message.getText());
         }
         return result;
@@ -72,7 +72,6 @@ public class MessageHandler {
             admin.setChannelName(channel.getName());
             crudAdminService.add(admin);
             readyExcelList = createExcelFileHandler.sendFileToUser(Math.toIntExact(channel.getId()), message);
-
         } else {
             readyExcelList = null;
         }

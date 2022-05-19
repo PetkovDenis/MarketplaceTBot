@@ -3,22 +3,26 @@ package ru.ws.marketplace.service.impl;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.repository.UserRepository;
 import ru.ws.marketplace.service.crud.CRUDUserService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Service
 public class CRUDUserServiceImpl implements CRUDUserService {
 
     private final UserRepository userRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public CRUDUserServiceImpl(UserRepository userRepository) {
+    public CRUDUserServiceImpl(UserRepository userRepository, EntityManager em) {
         this.userRepository = userRepository;
+        this.entityManager = em;
     }
 
     @Override
@@ -28,52 +32,37 @@ public class CRUDUserServiceImpl implements CRUDUserService {
 
     @Override
     @SneakyThrows
+    @Transactional
     public void delete(Long id) {
-        if (searchUserInDatabase(id)) {
-            userRepository.deleteById(id);
-        } else {
-            throw new SQLException();
-        }
+        searchUserInDatabase(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     @SneakyThrows
-    public void update(TUser user, Long id) {
-        if (searchUserInDatabase(id)) {
-            userRepository.deleteById(id);
-            user.setId(id);
-            userRepository.save(user);
-        } else {
-            throw new SQLException();
-        }
+    @Transactional
+    public void update(TUser user, Long id) {//TODO: изменить функцию обновления данных
+        searchUserInDatabase(id);
+        userRepository.deleteById(id);
+        user.setId(id);
+        userRepository.save(user);
     }
 
     @Override
     @SneakyThrows
+    @Transactional
     public TUser get(Long id) {
-        TUser tUser;
-        if (searchUserInDatabase(id)) {
-            tUser = userRepository.getById(id);
-        } else {
-            throw new SQLException();
-        }
+        searchUserInDatabase(id);
+        TUser tUser = userRepository.getById(id);
         return tUser;
     }
 
     @Override
-    public TUser findByFirstName(String firstName) {
-        return userRepository.getByFirstName(firstName);
+    public List<TUser> getAllUsers() {
+        Query query = entityManager.createQuery("SELECT e FROM TUser e");
+        return (List<TUser>) query.getResultList();
     }
 
-    @Override
-    public TUser findByLastName(String lastName) {
-        return userRepository.getByLastName(lastName);
-    }
-
-    @Override
-    public List<TUser> getAllByEndDate() {
-        return userRepository.getAllByEndDate(new GregorianCalendar());
-    }
 
     @Override
     public TUser getByChatId(Long id) {
@@ -86,7 +75,16 @@ public class CRUDUserServiceImpl implements CRUDUserService {
     }
 
     @Override
-    public Boolean searchUserInDatabase(Long id) {
-        return userRepository.existsById(id);
+    public List<TUser> getAllByChannelName(String name) {
+        return userRepository.getAllByChannelName(name);
     }
+
+    @Override
+    @SneakyThrows
+    public void searchUserInDatabase(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new SQLException();
+        }
+    }
+
 }

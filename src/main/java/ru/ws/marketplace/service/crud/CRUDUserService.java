@@ -16,15 +16,15 @@ public interface CRUDUserService {
 
     TUser get(Long id);
 
-    TUser findByFirstName(String firstName);
-
-    TUser findByLastName(String lastName);
-
-    List<TUser> getAllByEndDate();
-
     TUser getByChatId(Long id);
 
     List<TUser> getAllByInvoiceId(Integer id);
 
-    Boolean searchUserInDatabase(Long id);
+    List<TUser> getAllByChannelName(String name);
+
+    void searchUserInDatabase(Long id);
+
+    List<TUser> getAllUsers();
+
+
 }

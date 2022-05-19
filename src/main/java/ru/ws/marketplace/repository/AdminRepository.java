@@ -7,4 +7,6 @@ import ru.ws.marketplace.model.TAdmin;
 @Service
 public interface AdminRepository extends JpaRepository<TAdmin, Long> {
     TAdmin getByChatId(Long id);
+
+    TAdmin getTAdminByChannelName(String name);
 }

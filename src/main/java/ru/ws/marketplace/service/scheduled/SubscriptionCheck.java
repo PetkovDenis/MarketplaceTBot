@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 
 @Service
 @EnableScheduling
-public class ScheduledService {
+public class SubscriptionCheck {
 
     private final CRUDUserServiceImpl crudUserService;
 
@@ -23,24 +23,20 @@ public class ScheduledService {
     private Statement statement;
     private ResultSet resultSet;
 
-    public ScheduledService(CRUDUserServiceImpl crudUserService) {
+    public SubscriptionCheck(CRUDUserServiceImpl crudUserService) {
         this.crudUserService = crudUserService;
     }
 
-    // Europe/Moscow	(+03:00) Moscow
-    // Asia/Vladivostok 	(+10:00) Vladivostok
     // секунды, минуты, часы, день в месяце, месяц, дней в неделю
-    @Scheduled(cron = "0 0 10 1 * ?")
+    // каждые 5 минут
+    @Scheduled(cron = "* */5 * * * *")
     public void checkerUser() {
 
         String query = "select id,end_date from users";
 
         try {
-
             connection = DriverManager.getConnection(url, user, password);
-
             statement = connection.createStatement();
-
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {

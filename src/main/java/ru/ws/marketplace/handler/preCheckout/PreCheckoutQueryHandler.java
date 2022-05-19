@@ -34,6 +34,7 @@ public class PreCheckoutQueryHandler {
         tUser.setEndDate(dateHandler.getEndDate());
         tUser.setPayment(preCheckoutQuery.getTotalAmount() / 100); // сумма оплаты
         tUser.setChannelId(Integer.valueOf(preCheckoutQuery.getInvoicePayload())); // id чата
+        tUser.setChannelName(tChannel.getName());
         crudUserService.add(tUser);
     }
 }

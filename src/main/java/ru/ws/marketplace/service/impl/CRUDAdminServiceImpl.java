@@ -3,6 +3,7 @@ package ru.ws.marketplace.service.impl;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ws.marketplace.model.TAdmin;
 import ru.ws.marketplace.repository.AdminRepository;
 import ru.ws.marketplace.service.crud.CRUDAdminService;
@@ -26,36 +27,28 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
 
     @Override
     @SneakyThrows
+    @Transactional
     public void delete(Long id) {
-        if (searchAdminInDatabase(id)) {
-            adminRepository.deleteById(id);
-        } else {
-            throw new SQLException();
-        }
+        searchAdminInDatabase(id);
+        adminRepository.deleteById(id);
     }
 
     @Override
     @SneakyThrows
+    @Transactional
     public void update(TAdmin tAdmin, Long id) {
-        if (searchAdminInDatabase(id)) {
-            adminRepository.deleteById(id);
-            tAdmin.setId(id);
-            adminRepository.save(tAdmin);
-        } else {
-            throw new SQLException();
-        }
+        searchAdminInDatabase(id);
+        adminRepository.deleteById(id);//TODO: изменить функцию обновления данных
+        tAdmin.setId(id);
+        adminRepository.save(tAdmin);
     }
 
     @Override
     @SneakyThrows
+    @Transactional
     public TAdmin get(Long id) {
-        TAdmin tAdmin;
-        if (searchAdminInDatabase(id)) {
-            tAdmin = adminRepository.getById(id);
-        } else {
-            throw new SQLException();
-        }
-        return tAdmin;
+        searchAdminInDatabase(id);
+        return adminRepository.getById(id);
     }
 
     @Override
@@ -64,7 +57,15 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
     }
 
     @Override
-    public Boolean searchAdminInDatabase(Long id) {
-        return adminRepository.existsById(id);
+    public TAdmin getTAdminByChannelName(String name) {
+        return adminRepository.getTAdminByChannelName(name);
+    }
+
+    @Override
+    @SneakyThrows
+    public void searchAdminInDatabase(Long id) {
+        if (!adminRepository.existsById(id)) {
+            throw new SQLException();
+        }
     }
 }

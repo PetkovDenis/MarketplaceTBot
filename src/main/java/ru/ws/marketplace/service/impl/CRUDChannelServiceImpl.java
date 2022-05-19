@@ -3,30 +3,34 @@ package ru.ws.marketplace.service.impl;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.repository.ChannelRepository;
 import ru.ws.marketplace.service.crud.CRUDChannelService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class CRUDChannelServiceImpl implements CRUDChannelService {
 
-    final ChannelRepository channelRepository;
+    private final ChannelRepository channelRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public CRUDChannelServiceImpl(ChannelRepository channelService) {
+    public CRUDChannelServiceImpl(ChannelRepository channelService, EntityManager entityManager) {
         this.channelRepository = channelService;
+        this.entityManager = entityManager;
     }
 
     @Override
     @SneakyThrows
+    @Transactional
     public void delete(Long id) {
-        if (searchChannelInDatabase(id)) {
-            channelRepository.deleteById(id);
-        } else {
-            throw new SQLException();
-        }
+        searchChannelInDatabaseById(id);
+        channelRepository.deleteById(id);
     }
 
     @Override
@@ -36,32 +40,36 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
 
     @Override
     @SneakyThrows
+    @Transactional
     public TChannel get(Long id) {
-        TChannel receivedChannel;
-        if (searchChannelInDatabase(id)) {
-            receivedChannel = channelRepository.getById(id);
-        } else {
-            throw new SQLException();
-        }
-        return receivedChannel;
+        searchChannelInDatabaseById(id);
+        return channelRepository.getById(id);
     }
 
     @Override
     @SneakyThrows
+    @Transactional
     public void update(TChannel channel, Long id) {
-        if (searchChannelInDatabase(id)) {
-            channelRepository.deleteById(id);
-            channel.setId(id);
-            channelRepository.save(channel);
-        } else {
-            throw new SQLException();
-        }
+        searchChannelInDatabaseById(id);
+        channelRepository.deleteById(id); //TODO: изменить функцию обновления данных
+        channel.setId(id);
+        channelRepository.save(channel);
     }
 
     @Override
+    @Transactional
     public TChannel findByName(String name) {
+        searchChannelInDatabaseByName(name);
         return channelRepository.getTChannelByName(name);
     }
+
+
+    @Override
+    public List<TChannel> getAllChannels() {
+        Query query = entityManager.createQuery("SELECT e FROM TChannel e");
+        return (List<TChannel>) query.getResultList();
+    }
+
 
     @Override
     public TChannel getByChatId(Long id) {
@@ -69,7 +77,17 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     }
 
     @Override
-    public Boolean searchChannelInDatabase(Long id) {
-        return channelRepository.existsById(id);
+    @SneakyThrows
+    public void searchChannelInDatabaseById(Long id) {
+        if (!channelRepository.existsById(id)) {
+            throw new SQLException();
+        }
+    }
+
+    @SneakyThrows
+    public void searchChannelInDatabaseByName(String name) {
+        if (channelRepository.getTChannelByName(name) == null) {
+            throw new SQLException();
+        }
     }
 }

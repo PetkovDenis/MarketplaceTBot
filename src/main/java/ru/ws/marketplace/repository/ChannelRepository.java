@@ -10,4 +10,5 @@ public interface ChannelRepository extends JpaRepository<TChannel, Long> {
     TChannel getTChannelByName(String firstName);
 
     TChannel getByChatId(Long id);
+
 }

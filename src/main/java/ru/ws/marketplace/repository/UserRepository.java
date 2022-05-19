@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<TUser, Long> {
     TUser getByChatId(Long id);
 
     List<TUser> getAllByChannelId(Integer id);
+
+    List<TUser> getAllByChannelName(String name);
 }

@@ -16,5 +16,7 @@ public interface CRUDAdminService {
 
     TAdmin getByChatId(Long id);
 
-    Boolean searchAdminInDatabase(Long id);
+    void searchAdminInDatabase(Long id);
+
+    TAdmin getTAdminByChannelName(String name);
 }

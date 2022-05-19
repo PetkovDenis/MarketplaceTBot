@@ -3,6 +3,8 @@ package ru.ws.marketplace.service.crud;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TChannel;
 
+import java.util.List;
+
 @Service
 public interface CRUDChannelService {
 
@@ -18,5 +20,7 @@ public interface CRUDChannelService {
 
     TChannel getByChatId(Long id);
 
-    Boolean searchChannelInDatabase(Long id);
+    void searchChannelInDatabaseById(Long id);
+
+    List<TChannel> getAllChannels();
 }
