@@ -1,16 +1,39 @@
 package ru.ws.marketplace.model;
 
+import lombok.*;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.logging.Logger;
+import javax.persistence.*;
+import java.util.Date;
 
+@Getter
+@Setter
+@ToString
+@Entity
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "messages")
 public class TMessage {
 
-    private static final Logger log = Logger.getLogger(Message.class.getName());
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    public void messageWaiting(Message message) {
-        log.info("username: " + message.getFrom().getFirstName() + " lastName: " + message.getFrom().getLastName() + " Sent a message - " + message.getText());
-    }
+    @Column(name = "chat_id")
+    private Long chatId;
+
+    @Column(name = "message_id")
+    private Integer messageId;
+
+    @Column(name = "message_text")
+    private String messageText;
+
+    @Column(name = "reply_message_text")
+    private String replyMessageText;
+
+    @Column(name = "create_date")
+    private Date createDate;
+
 }
