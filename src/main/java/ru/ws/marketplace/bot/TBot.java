@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -13,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.payments.SuccessfulPayment;
 import ru.ws.marketplace.handler.message.MessageHandler;
 import ru.ws.marketplace.handler.update.UpdateHandler;
 import ru.ws.marketplace.model.TChannel;
-import ru.ws.marketplace.model.TMessage;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDMessageServiceImpl;
 

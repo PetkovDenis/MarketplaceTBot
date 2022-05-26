@@ -27,9 +27,7 @@ public class SubscriptionCheck {
         this.crudUserService = crudUserService;
     }
 
-    // секунды, минуты, часы, день в месяце, месяц, дней в неделю
-    // каждые 5 минут
-    @Scheduled(cron = "* */5 * * * *")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void checkerUser() {
 
         String query = "select id,end_date from users";

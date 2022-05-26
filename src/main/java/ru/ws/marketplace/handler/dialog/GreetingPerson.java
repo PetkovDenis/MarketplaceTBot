@@ -11,11 +11,11 @@ import ru.ws.marketplace.init.button.ButtonInitialization;
 @AllArgsConstructor
 public class GreetingPerson {
 
-    private final ButtonInitialization mainMenuService = new ButtonInitialization();
+    private final ButtonInitialization buttonInitialization = new ButtonInitialization();
 
     public BotApiMethod<?> greeting(Message message) {
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), "Здравствуйте!");
-        sendMessage.setReplyMarkup(mainMenuService.getKeyboard());
+        sendMessage.setReplyMarkup(buttonInitialization.getDefaultKeyboard());
         return sendMessage;
     }
 }

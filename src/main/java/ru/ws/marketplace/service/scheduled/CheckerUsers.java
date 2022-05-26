@@ -7,10 +7,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TAdmin;
-import ru.ws.marketplace.model.TChannel;
+import ru.ws.marketplace.model.TGroup;
 import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.service.impl.CRUDAdminServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
+import ru.ws.marketplace.service.impl.CRUDGroupServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 
 import java.io.BufferedReader;
@@ -28,21 +29,21 @@ public class CheckerUsers {
     private final CRUDUserServiceImpl crudUserService;
     private final CRUDChannelServiceImpl crudChannelService;
     private final CRUDAdminServiceImpl crudAdminService;
+    private final CRUDGroupServiceImpl crudGroupService;
 
     private final String token = "5277995877:AAFxEZE5tVi1XTcxIGKIV6N7M-2hKuXfhjE";
 
-    // каждые 5 минут
-    @Scheduled(cron = "* */10 * * * *")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void checkUser() {
-        List<TChannel> allChannels = crudChannelService.getAllChannels();
-        for (TChannel channel : allChannels) {
-            Long channelId = channel.getGroupId();
-            String name = channel.getName();
-            Integer countUsers = createRequestOnTelegramAPI(token, channelId.toString(), name);
-            List<TUser> allByChannelName = crudUserService.getAllByChannelName(name);
-            comparisonOfTheNumberUsers(countUsers, allByChannelName);
-        }
+        List<TGroup> allGroups = crudGroupService.getAllGroups();
+    for(TGroup tGroup : allGroups){
+        Long groupId = tGroup.getGroupId();
+        String name = tGroup.getName();
+        Integer countUsers = createRequestOnTelegramAPI(token, groupId.toString(), name);
+        List<TUser> allByChannelName = crudUserService.getAllByChannelName(name);
+        comparisonOfTheNumberUsers(countUsers,allByChannelName);
     }
+}
 
     @SneakyThrows
     public Integer createRequestOnTelegramAPI(String token, String chatId, String chatName) {
@@ -59,6 +60,7 @@ public class CheckerUsers {
 
     public void comparisonOfTheNumberUsers(Integer countUsers, List<TUser> userList) {
         if (countUsers > userList.size()) {
+            // тут можем записать к админу количество левых людей
             for (TUser tUser : userList) {
                 String channelName = tUser.getChannelName();
                 TAdmin tAdminByChannelName = crudAdminService.getTAdminByChannelName(channelName);
@@ -94,4 +96,16 @@ public class CheckerUsers {
         }
         return response;
     }
+
+public void checker(int countUsers,int knowUsers){
+        if (countUsers > knowUsers){
+            //sendMessage
+        }else{
+            //ничего не делаем
+        }
 }
+}
+/*
+если админа оповестили, что есть левый чел 1 то ничего больше не отправлять если появился второй,
+то надо отправить еще раз смс но уже что есть 2 чела
+ */

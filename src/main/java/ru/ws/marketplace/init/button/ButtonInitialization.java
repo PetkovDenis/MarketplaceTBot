@@ -75,7 +75,7 @@ public class ButtonInitialization {
     }
 
     @Bean
-    public InlineKeyboardMarkup getKeyboard() {
+    public InlineKeyboardMarkup getDefaultKeyboard() {
 
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
 
@@ -87,24 +87,35 @@ public class ButtonInitialization {
         buttonSubscribe.setText("Оформить подписку на ресурс");
         buttonSubscribe.setCallbackData("buttonSubscribe");
 
-
-        InlineKeyboardButton buttonReport = new InlineKeyboardButton();
-        buttonReport.setText("Получить отчет");
-        buttonReport.setCallbackData("buttonReport");
-
         List<InlineKeyboardButton> keyboardButtons1 = new ArrayList<>();
         keyboardButtons1.add(buttonSubscribe);
 
         List<InlineKeyboardButton> keyboardButtons2 = new ArrayList<>();
         keyboardButtons2.add(buttonAddResources);
 
-        List<InlineKeyboardButton> keyboardButtons3 = new ArrayList<>();
-        keyboardButtons3.add(buttonReport);
-
         List<List<InlineKeyboardButton>> listsKeyboards = new ArrayList<>();
         listsKeyboards.add(keyboardButtons1);
         listsKeyboards.add(keyboardButtons2);
-        listsKeyboards.add(keyboardButtons3);
+
+        keyboard.setKeyboard(listsKeyboards);
+
+        return keyboard;
+    }
+
+    @Bean
+    public InlineKeyboardMarkup getAdminKeyboard() {
+
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton buttonReport = new InlineKeyboardButton();
+        buttonReport.setText("Получить отчет");
+        buttonReport.setCallbackData("buttonReport");
+
+        List<InlineKeyboardButton> keyboardButton1 = new ArrayList<>();
+        keyboardButton1.add(buttonReport);
+
+        List<List<InlineKeyboardButton>> listsKeyboards = new ArrayList<>();
+        listsKeyboards.add(keyboardButton1);
 
         keyboard.setKeyboard(listsKeyboards);
 

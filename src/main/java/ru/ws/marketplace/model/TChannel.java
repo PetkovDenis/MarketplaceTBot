@@ -29,8 +29,8 @@ public class TChannel {
     private Integer price;
     @Column(name = "chat_id")
     private Long chatId;
-    @Column(name = "group_id")
-    private Long groupId;
+//    @Column(name = "group_id")
+//    private Long groupId;
 
     public TChannel() {
     }
