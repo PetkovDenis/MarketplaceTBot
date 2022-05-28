@@ -7,11 +7,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TAdmin;
-import ru.ws.marketplace.model.TGroup;
+import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.service.impl.CRUDAdminServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
-import ru.ws.marketplace.service.impl.CRUDGroupServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDUserServiceImpl;
 
 import java.io.BufferedReader;
@@ -27,23 +26,22 @@ import java.util.List;
 public class CheckerUsers {
 
     private final CRUDUserServiceImpl crudUserService;
-    private final CRUDChannelServiceImpl crudChannelService;
     private final CRUDAdminServiceImpl crudAdminService;
-    private final CRUDGroupServiceImpl crudGroupService;
+    private final CRUDChannelServiceImpl crudChannelService;
 
     private final String token = "5277995877:AAFxEZE5tVi1XTcxIGKIV6N7M-2hKuXfhjE";
 
-    @Scheduled(cron = "0 */5 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void checkUser() {
-        List<TGroup> allGroups = crudGroupService.getAllGroups();
-    for(TGroup tGroup : allGroups){
-        Long groupId = tGroup.getGroupId();
-        String name = tGroup.getName();
-        Integer countUsers = createRequestOnTelegramAPI(token, groupId.toString(), name);
-        List<TUser> allByChannelName = crudUserService.getAllByChannelName(name);
-        comparisonOfTheNumberUsers(countUsers,allByChannelName);
+        List<TChannel> allChannels = crudChannelService.getAllChannels();
+        for (TChannel channel : allChannels) {
+            Long groupId = channel.getGroupId();
+            String name = channel.getName();
+            Integer countUsers = createRequestOnTelegramAPI(token, groupId.toString(), name);
+            List<TUser> allByChannelName = crudUserService.getAllByChannelName(name);
+            comparisonOfTheNumberUsers(countUsers, allByChannelName, channel);
+        }
     }
-}
 
     @SneakyThrows
     public Integer createRequestOnTelegramAPI(String token, String chatId, String chatName) {
@@ -58,16 +56,20 @@ public class CheckerUsers {
         return jsonObject.getString("result");
     }
 
-    public void comparisonOfTheNumberUsers(Integer countUsers, List<TUser> userList) {
+    public void comparisonOfTheNumberUsers(Integer countUsers, List<TUser> userList, TChannel channel) {
         if (countUsers > userList.size()) {
-            // тут можем записать к админу количество левых людей
-            for (TUser tUser : userList) {
-                String channelName = tUser.getChannelName();
-                TAdmin tAdminByChannelName = crudAdminService.getTAdminByChannelName(channelName);
-                createResponseForAdmin(tAdminByChannelName.getChatId().toString(), countUsers, userList.size());
+            if (countUsers > channel.getCountUsers()) {
+                channel.setCountUsers(countUsers);
+                crudChannelService.add(channel);
+                for (TUser tUser : userList) {
+                    String channelName = tUser.getChannelName();
+                    TAdmin tAdminByChannelName = crudAdminService.getTAdminByChannelName(channelName);
+                    createResponseForAdmin(tAdminByChannelName.getChatId().toString(), countUsers, userList.size());
+                }
             }
         }
     }
+
 
     @SneakyThrows
     public void createResponseForAdmin(String chatId, Integer countUsers, Integer sizeList) {
@@ -78,7 +80,7 @@ public class CheckerUsers {
     }
 
     @SneakyThrows
-    public StringBuilder createRequest(String url)  {
+    public StringBuilder createRequest(String url) {
         URL obj = new URL(url);
         StringBuilder response = new StringBuilder();
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -91,21 +93,9 @@ public class CheckerUsers {
                 response.append(inputLine);
             }
             in.close();
-        }else {
+        } else {
             throw new ProtocolException();
         }
         return response;
     }
-
-public void checker(int countUsers,int knowUsers){
-        if (countUsers > knowUsers){
-            //sendMessage
-        }else{
-            //ничего не делаем
-        }
 }
-}
-/*
-если админа оповестили, что есть левый чел 1 то ничего больше не отправлять если появился второй,
-то надо отправить еще раз смс но уже что есть 2 чела
- */
