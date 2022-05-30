@@ -2,7 +2,6 @@ package ru.ws.marketplace.init.command;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
-import ru.ws.marketplace.init.button.ButtonInitialization;
 import ru.ws.marketplace.state.dialog.*;
 
 import java.util.HashMap;

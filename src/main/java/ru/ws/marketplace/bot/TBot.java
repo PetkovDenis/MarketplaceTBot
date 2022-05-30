@@ -43,13 +43,13 @@ public class TBot extends TelegramLongPollingBot {
                 SuccessfulPayment successfulPayment = message.getSuccessfulPayment();
                 TChannel tChannel = crudChannelService.get(Long.valueOf(successfulPayment.getInvoicePayload()));
                 SendMessage replyMessage = new SendMessage(message.getChatId().toString(), "Платеж успешно завершен!\n Ссылка на канал: " + tChannel.getLink());
-                crudMessageService.createSavedMessage(message.getChatId(),message.getMessageId(),message.getText(),replyMessage.getText());
+                crudMessageService.createSavedMessage(message.getChatId(), message.getMessageId(), message.getText(), replyMessage.getText());
                 execute(replyMessage);
             }
             if (message.hasText()) {
                 if (message.getText().equals("Получить отчет")) {
                     SendDocument file = messageHandler.createFile(message);
-                    crudMessageService.createSavedMessage(message.getChatId(),message.getMessageId(),message.getText(),"send file");
+                    crudMessageService.createSavedMessage(message.getChatId(), message.getMessageId(), message.getText(), "send file");
                     execute(file);
                 } else {
                     execute(updateHandler.execute(update));

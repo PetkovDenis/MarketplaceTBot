@@ -18,7 +18,7 @@ public class CRUDMessageServiceImpl implements CRUDMessageService {
 
     @Override
     public void createSavedMessage(Long chatId, Integer messageId, String messageText, String replyMessageText) {
-        TMessage message  = new TMessage();
+        TMessage message = new TMessage();
         message.setMessageId(messageId);
         message.setMessageText(messageText);
         message.setReplyMessageText(replyMessageText);

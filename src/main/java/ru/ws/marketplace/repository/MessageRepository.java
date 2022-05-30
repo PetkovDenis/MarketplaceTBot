@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.ws.marketplace.model.TMessage;
 
 @Service
-public interface MessageRepository extends JpaRepository<TMessage,Long> {
+public interface MessageRepository extends JpaRepository<TMessage, Long> {
 
 }

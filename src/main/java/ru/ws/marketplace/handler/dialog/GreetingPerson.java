@@ -11,7 +11,7 @@ import ru.ws.marketplace.init.button.ButtonInitialization;
 @AllArgsConstructor
 public class GreetingPerson {
 
-    private final ButtonInitialization buttonInitialization = new ButtonInitialization();
+    private final ButtonInitialization buttonInitialization;
 
     public BotApiMethod<?> greeting(Message message) {
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), "Здравствуйте!");
