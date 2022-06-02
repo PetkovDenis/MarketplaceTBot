@@ -1,7 +1,7 @@
 package ru.ws.marketplace.bot;
 
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -16,7 +16,6 @@ import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;
 import ru.ws.marketplace.service.impl.CRUDMessageServiceImpl;
 
 @Component
-@AllArgsConstructor
 public class TBot extends TelegramLongPollingBot {
 
     private final CRUDChannelServiceImpl crudChannelService;
@@ -24,14 +23,27 @@ public class TBot extends TelegramLongPollingBot {
     private final UpdateHandler updateHandler;
     private final CRUDMessageServiceImpl crudMessageService;
 
+    @Value("${bot.token}")
+    private String botToken;
+
+    @Value("${bot.name}")
+    private String botName;
+
+    public TBot(CRUDChannelServiceImpl crudChannelService, MessageHandler messageHandler, UpdateHandler updateHandler, CRUDMessageServiceImpl crudMessageService) {
+        this.crudChannelService = crudChannelService;
+        this.messageHandler = messageHandler;
+        this.updateHandler = updateHandler;
+        this.crudMessageService = crudMessageService;
+    }
+
     @Override
     public String getBotUsername() {
-        return "@WSMarketplace_bot";
+        return botName;
     }
 
     @Override
     public String getBotToken() {
-        return "5277995877:AAFxEZE5tVi1XTcxIGKIV6N7M-2hKuXfhjE";
+        return botToken;
     }
 
     @Override

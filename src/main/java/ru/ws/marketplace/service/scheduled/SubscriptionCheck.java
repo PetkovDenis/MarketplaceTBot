@@ -1,5 +1,6 @@
 package ru.ws.marketplace.service.scheduled;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ public class SubscriptionCheck {
 
     private final CRUDUserServiceImpl crudUserService;
 
-    private final String url = "jdbc:postgresql://localhost:49153/postgres";
+    @Value("${postgreSQL.url}")
+    private String url;
     private final String user = "postgres";
     private final String password = "postgres";
 
@@ -57,4 +59,6 @@ public class SubscriptionCheck {
             }
         }
     }
+
+
 }

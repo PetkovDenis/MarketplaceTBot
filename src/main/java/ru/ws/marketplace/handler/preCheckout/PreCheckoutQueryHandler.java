@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
-import ru.ws.marketplace.handler.date.DateHandler;
+import ru.ws.marketplace.init.date.DateHandler;
 import ru.ws.marketplace.model.TChannel;
 import ru.ws.marketplace.model.TUser;
 import ru.ws.marketplace.service.impl.CRUDChannelServiceImpl;

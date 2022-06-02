@@ -26,14 +26,6 @@ public class CRUDChannelServiceImpl implements CRUDChannelService {
     }
 
     @Override
-    @SneakyThrows
-    @Transactional
-    public void delete(Long id) {
-        searchChannelInDatabaseById(id);
-        channelRepository.deleteById(id);
-    }
-
-    @Override
     public TChannel add(TChannel channel) {
         return channelRepository.save(channel);
     }

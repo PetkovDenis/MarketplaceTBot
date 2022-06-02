@@ -8,8 +8,6 @@ import java.util.List;
 @Service
 public interface CRUDChannelService {
 
-    void delete(Long id);
-
     TChannel add(TChannel channel);
 
     TChannel get(Long id);

@@ -6,8 +6,6 @@ import ru.ws.marketplace.model.TAdmin;
 @Service
 public interface CRUDAdminService {
 
-    void delete(Long id);
-
     TAdmin add(TAdmin admin);
 
     TAdmin get(Long id);

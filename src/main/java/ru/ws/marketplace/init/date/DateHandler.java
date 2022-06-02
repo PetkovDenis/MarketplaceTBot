@@ -1,4 +1,4 @@
-package ru.ws.marketplace.handler.date;
+package ru.ws.marketplace.init.date;
 
 import org.springframework.stereotype.Component;
 

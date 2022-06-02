@@ -28,17 +28,9 @@ public class CRUDAdminServiceImpl implements CRUDAdminService {
     @Override
     @SneakyThrows
     @Transactional
-    public void delete(Long id) {
-        searchAdminInDatabase(id);
-        adminRepository.deleteById(id);
-    }
-
-    @Override
-    @SneakyThrows
-    @Transactional
     public void update(TAdmin tAdmin, Long id) {
         searchAdminInDatabase(id);
-        adminRepository.deleteById(id);//TODO: изменить функцию обновления данных
+        adminRepository.deleteById(id);
         tAdmin.setId(id);
         adminRepository.save(tAdmin);
     }

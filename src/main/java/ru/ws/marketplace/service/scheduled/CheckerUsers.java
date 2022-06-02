@@ -1,8 +1,8 @@
 package ru.ws.marketplace.service.scheduled;
 
 import com.alibaba.fastjson.JSONObject;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,14 +22,20 @@ import java.util.List;
 
 @Service
 @EnableScheduling
-@AllArgsConstructor
 public class CheckerUsers {
 
     private final CRUDUserServiceImpl crudUserService;
     private final CRUDAdminServiceImpl crudAdminService;
     private final CRUDChannelServiceImpl crudChannelService;
 
-    private final String token = "5277995877:AAFxEZE5tVi1XTcxIGKIV6N7M-2hKuXfhjE";
+    @Value("${bot.token}")
+    private String botToken;
+
+    public CheckerUsers(CRUDUserServiceImpl crudUserService, CRUDAdminServiceImpl crudAdminService, CRUDChannelServiceImpl crudChannelService) {
+        this.crudUserService = crudUserService;
+        this.crudAdminService = crudAdminService;
+        this.crudChannelService = crudChannelService;
+    }
 
     @Scheduled(cron = "0 */1 * * * ?")
     public void checkUser() {
@@ -37,7 +43,7 @@ public class CheckerUsers {
         for (TChannel channel : allChannels) {
             Long groupId = channel.getGroupId();
             String name = channel.getName();
-            Integer countUsers = createRequestOnTelegramAPI(token, groupId.toString(), name);
+            Integer countUsers = createRequestOnTelegramAPI(botToken, groupId.toString(), name);
             List<TUser> allByChannelName = crudUserService.getAllByChannelName(name);
             comparisonOfTheNumberUsers(countUsers, allByChannelName, channel);
         }
@@ -73,7 +79,7 @@ public class CheckerUsers {
 
     @SneakyThrows
     public void createResponseForAdmin(String chatId, Integer countUsers, Integer sizeList) {
-        String url = "https://api.telegram.org/bot" + token + "/sendMessage?chat_id=" + chatId + "&text=" + "Количество пользователей в группе: " + countUsers +
+        String url = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + "Количество пользователей в группе: " + countUsers +
                 "                                                                      Количество людей, которые подписались с помощью бота: " + sizeList;
         StringBuilder response = createRequest(url);
         getCountUsers(response.toString());
