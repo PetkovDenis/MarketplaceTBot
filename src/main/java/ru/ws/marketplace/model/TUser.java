@@ -36,6 +36,8 @@ public class TUser {
     private Integer channelId;
     @Column(name = "channel_name")
     private String channelName;
+    @Column(name = "status")
+    private String status;
 
     public TUser() {
     }

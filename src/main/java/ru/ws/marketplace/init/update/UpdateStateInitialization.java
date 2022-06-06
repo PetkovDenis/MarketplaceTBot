@@ -1,7 +1,6 @@
 package ru.ws.marketplace.init.update;
 
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.AnswerPreCheckoutQuery;
@@ -38,9 +37,6 @@ public class UpdateStateInitialization {
 
     private final CheckerUsers checkerUsers;
 
-    @Value("${bot.token}")
-    private String botToken;
-
     public UpdateStateInitialization(ButtonClickHandler callbackHandler, DialogueContext context, GreetingPerson greetingPerson, MessageHandler messageHandler, PreCheckoutQueryHandler preCheckoutQueryHandler, CRUDChannelServiceImpl crudChannelService, CheckerUsers checkerUsers) {
         this.callbackHandler = callbackHandler;
         this.context = context;
@@ -68,7 +64,7 @@ public class UpdateStateInitialization {
         Long id = chat.getId();
         TChannel channel = crudChannelService.findByName(firstName);
         channel.setGroupId(id);
-        Integer requestOnTelegramAPI = checkerUsers.createRequestOnTelegramAPI(botToken, id.toString(), firstName);
+        Integer requestOnTelegramAPI = checkerUsers.createRequestOnTelegramAPI(id.toString(), firstName);
         channel.setCountUsers(requestOnTelegramAPI);
         crudChannelService.add(channel);
         return new SendMessage(id.toString(), "ok"); // TODO:придумать другой результат

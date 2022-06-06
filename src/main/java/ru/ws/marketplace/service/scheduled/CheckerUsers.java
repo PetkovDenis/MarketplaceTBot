@@ -38,20 +38,20 @@ public class CheckerUsers {
     }
 
     @Scheduled(cron = "0 */1 * * * ?")
-    public void checkUser() {
+    public void checkUsers() {
         List<TChannel> allChannels = crudChannelService.getAllChannels();
         for (TChannel channel : allChannels) {
             Long groupId = channel.getGroupId();
             String name = channel.getName();
-            Integer countUsers = createRequestOnTelegramAPI(botToken, groupId.toString(), name);
+            Integer countUsers = createRequestOnTelegramAPI(groupId.toString(), name);
             List<TUser> allByChannelName = crudUserService.getAllByChannelName(name);
             comparisonOfTheNumberUsers(countUsers, allByChannelName, channel);
         }
     }
 
     @SneakyThrows
-    public Integer createRequestOnTelegramAPI(String token, String chatId, String chatName) {
-        String url = "https://api.telegram.org/bot" + token + "/getChatMembersCount?chat_id=" + chatId + "=@" + chatName;
+    public Integer createRequestOnTelegramAPI(String chatId, String chatName) {
+        String url = "https://api.telegram.org/bot" + botToken + "/getChatMembersCount?chat_id=" + chatId + "=@" + chatName;
         StringBuilder response = createRequest(url);
         String countUsers = getCountUsers(response.toString());
         return Integer.valueOf(countUsers);
@@ -75,7 +75,6 @@ public class CheckerUsers {
             }
         }
     }
-
 
     @SneakyThrows
     public void createResponseForAdmin(String chatId, Integer countUsers, Integer sizeList) {
